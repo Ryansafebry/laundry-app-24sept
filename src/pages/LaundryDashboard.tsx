@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -20,9 +20,18 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { PlusCircle } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import CreateOrderForm from "@/components/CreateOrderForm"; // Import the new form component
 
-// Contoh data pesanan
-const orders = [
+// Contoh data pesanan awal
+const initialOrders = [
   {
     id: "ORD001",
     customer: "Budi Santoso",
@@ -62,6 +71,13 @@ const orders = [
 ];
 
 const LaundryDashboard = () => {
+  const [orders, setOrders] = useState(initialOrders);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleOrderCreated = (newOrder: typeof initialOrders[0]) => {
+    setOrders((prevOrders) => [newOrder, ...prevOrders]);
+  };
+
   const totalOrders = orders.length;
   const pendingOrders = orders.filter(
     (order) => order.status === "Pending",
@@ -89,12 +105,28 @@ const LaundryDashboard = () => {
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <h1 className="text-2xl font-semibold">Dashboard Laundry</h1>
           <div className="ml-auto flex items-center gap-2">
-            <Button size="sm" className="h-8 gap-1">
-              <PlusCircle className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Buat Pesanan Baru
-              </span>
-            </Button>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button size="sm" className="h-8 gap-1">
+                  <PlusCircle className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Buat Pesanan Baru
+                  </span>
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Buat Pesanan Baru</DialogTitle>
+                  <DialogDescription>
+                    Isi detail pesanan laundry baru di sini.
+                  </DialogDescription>
+                </DialogHeader>
+                <CreateOrderForm
+                  onOrderCreated={handleOrderCreated}
+                  onClose={() => setIsDialogOpen(false)}
+                />
+              </DialogContent>
+            </Dialog>
           </div>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
