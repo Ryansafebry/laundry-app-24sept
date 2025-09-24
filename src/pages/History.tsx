@@ -1,6 +1,6 @@
 "use client";
+
 import React from "react";
-import { Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -17,161 +17,136 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
-// Data ini hanya untuk demonstrasi. Di aplikasi nyata, data ini akan berasal dari state management atau API.
-const allOrders = [
-  {
-    id: "ORD001",
-@@ -31,6 +30,7 @@ const allOrders = [
-    weight: 3,
-    price: 15000,
-    date: "2023-10-26",
-    paymentMethod: "QRIS",
-  },
-  {
-    id: "ORD002",
-@@ -40,6 +40,7 @@ const allOrders = [
-    weight: 5,
-    price: 30000,
-    date: "2023-10-25",
-    paymentMethod: "Debit",
-  },
-  {
-    id: "ORD003",
-@@ -49,6 +50,7 @@ const allOrders = [
-    weight: 2,
-    price: 10000,
-    date: "2023-10-26",
-    paymentMethod: "Tunai",
-  },
-  {
-    id: "ORD004",
-@@ -58,6 +60,7 @@ const allOrders = [
-    weight: 4,
-    price: 20000,
-    date: "2023-10-27",
-    paymentMethod: "QRIS",
-  },
+// Definisi tipe untuk pesanan
+type Order = {
+  id: string;
+  customer: string;
+  service: string;
+  status: "Pending" | "In Progress" | "Completed";
+  weight: number;
+  price: number;
+  date: string;
+  paymentMethod: string; // Menambahkan metode pembayaran
+};
+
+// Contoh data riwayat pesanan
+const historicalOrders: Order[] = [
   {
     id: "ORD005",
-@@ -67,6 +70,7 @@ const allOrders = [
+    customer: "Andi Pratama",
+    service: "Cuci Setrika",
+    status: "Completed",
     weight: 6,
-    price: 36000,
+    price: 35000,
     date: "2023-10-24",
     paymentMethod: "Tunai",
   },
-];
-
-@@ -107,6 +111,7 @@ const HistoryPage = () => {
-                    <TableHead>Pelanggan</TableHead>
-                    <TableHead>Layanan</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Pembayaran</TableHead>
-                    <TableHead className="text-right">Berat (kg)</TableHead>
-                    <TableHead className="text-right">Harga</TableHead>
-                    <TableHead className="text-right">Tanggal</TableHead>
-@@ -122,10 +127,9 @@ const HistoryPage = () => {
-                        <TableCell>{order.customer}</TableCell>
-                        <TableCell>{order.service}</TableCell>
-                        <TableCell>
-                          <Badge>
-                            {order.status}
-                          </Badge>
-                          <Badge>{order.status}</Badge>
-                        </TableCell>
-                        <TableCell>{order.paymentMethod}</TableCell>
-                        <TableCell className="text-right">
-                          {order.weight}
-                        </TableCell>
-@@ -139,7 +143,7 @@ const HistoryPage = () => {
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={7} className="text-center">
-                      <TableCell colSpan={8} className="text-center">
-                        Tidak ada pesanan yang selesai.
-                      </TableCell>
-                    </TableRow>
-  9 changes: 7 additions & 2 deletions9  
-src/pages/LaundryDashboard.tsx
-Original file line number	Diff line number	Diff line change
-@@ -28,9 +28,8 @@ import {
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import CreateOrderForm from "@/components/CreateOrderForm"; // Import the new form component
-import CreateOrderForm from "@/components/CreateOrderForm";
-
-// Contoh data pesanan awal
-const initialOrders = [
   {
-    id: "ORD001",
-@@ -40,6 +39,7 @@ const initialOrders = [
-    weight: 3,
-    price: 15000,
-    date: "2023-10-26",
+    id: "ORD006",
+    customer: "Rina Wijaya",
+    service: "Cuci Kering",
+    status: "Completed",
+    weight: 2.5,
+    price: 12500,
+    date: "2023-10-23",
     paymentMethod: "QRIS",
   },
   {
-    id: "ORD002",
-@@ -49,6 +49,7 @@ const initialOrders = [
-    weight: 5,
-    price: 30000,
-    date: "2023-10-25",
+    id: "ORD007",
+    customer: "Bambang",
+    service: "Setrika Saja",
+    status: "Completed",
+    weight: 3,
+    price: 15000,
+    date: "2023-10-22",
     paymentMethod: "Debit",
   },
   {
-    id: "ORD003",
-@@ -58,6 +59,7 @@ const initialOrders = [
-    weight: 2,
-    price: 10000,
-    date: "2023-10-26",
-    paymentMethod: "Tunai",
-  },
-  {
-    id: "ORD004",
-@@ -67,6 +69,7 @@ const initialOrders = [
+    id: "ORD008",
+    customer: "Citra Dewi",
+    service: "Cuci Setrika",
+    status: "Completed",
     weight: 4,
-    price: 20000,
-    date: "2023-10-27",
-    paymentMethod: "QRIS",
+    price: 25000,
+    date: "2023-10-21",
+    paymentMethod: "Tunai",
   },
 ];
 
-@@ -198,6 +201,7 @@ const LaundryDashboard = () => {
-                      <TableHead>Pelanggan</TableHead>
-                      <TableHead>Layanan</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Pembayaran</TableHead>
-                      <TableHead className="text-right">Berat (kg)</TableHead>
-                      <TableHead className="text-right">Harga</TableHead>
-                      <TableHead className="text-right">Tanggal</TableHead>
-@@ -216,6 +220,7 @@ const LaundryDashboard = () => {
-                            {order.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{order.paymentMethod}</TableCell>
-                        <TableCell className="text-right">
-                          {order.weight}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          Rp{order.price.toLocaleString("id-ID")}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {order.date}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </div>
+const History = () => {
+  const getStatusVariant = (status: string) => {
+    switch (status) {
+      case "Pending":
+        return "destructive";
+      case "In Progress":
+        return "secondary";
+      case "Completed":
+        return "default";
+      default:
+        return "outline";
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+          <h1 className="text-2xl font-semibold">Riwayat Pesanan</h1>
+        </header>
+        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+          <Card>
+            <CardHeader className="px-7">
+              <CardTitle>Daftar Riwayat Pesanan</CardTitle>
+              <CardDescription>
+                Semua pesanan laundry yang telah selesai atau diarsipkan.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>ID Pesanan</TableHead>
+                    <TableHead>Pelanggan</TableHead>
+                    <TableHead>Layanan</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Pembayaran</TableHead> {/* Kolom baru */}
+                    <TableHead className="text-right">Berat (kg)</TableHead>
+                    <TableHead className="text-right">Harga</TableHead>
+                    <TableHead className="text-right">Tanggal</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {historicalOrders.map((order) => (
+                    <TableRow key={order.id}>
+                      <TableCell className="font-medium">{order.id}</TableCell>
+                      <TableCell>{order.customer}</TableCell>
+                      <TableCell>{order.service}</TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusVariant(order.status)}>
+                          {order.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{order.paymentMethod}</TableCell> {/* Menampilkan metode pembayaran */}
+                      <TableCell className="text-right">
+                        {order.weight}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        Rp{order.price.toLocaleString("id-ID")}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {order.date}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         </main>
       </div>
     </div>
   );
 };
-export default LaundryDashboard;
+
+export default History;
