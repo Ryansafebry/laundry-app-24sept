@@ -19,7 +19,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, MoreHorizontal } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -28,10 +28,30 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import CreateOrderForm from "@/components/CreateOrderForm"; // Import the new form component
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import CreateOrderForm from "@/components/CreateOrderForm";
+import { toast } from "sonner";
+
+// Definisi tipe untuk pesanan
+type Order = {
+  id: string;
+  customer: string;
+  service: string;
+  status: "Pending" | "In Progress" | "Completed";
+  weight: number;
+  price: number;
+  date: string;
+};
 
 // Contoh data pesanan awal
-const initialOrders = [
+const initialOrders: Order[] = [
   {
     id: "ORD001",
     customer: "Budi Santoso",
@@ -71,11 +91,28 @@ const initialOrders = [
 ];
 
 const LaundryDashboard = () => {
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders, setOrders] = useState<Order[]>(initialOrders);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleOrderCreated = (newOrder: typeof initialOrders[0]) => {
+  const handleOrderCreated = (newOrder: Order) => {
     setOrders((prevOrders) => [newOrder, ...prevOrders]);
+  };
+
+  const handleUpdateOrderStatus = (
+    orderId: string,
+    newStatus: "Pending" | "In Progress" | "Completed",
+  ) => {
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.id === orderId ? { ...order, status: newStatus } : order,
+      ),
+    );
+    toast.info(`Status pesanan ${orderId} diperbarui menjadi ${newStatus}.`);
+  };
+
+  const handleDeleteOrder = (orderId: string) => {
+    setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
+    toast.success(`Pesanan ${orderId} berhasil dihapus.`);
   };
 
   const totalOrders = orders.length;
@@ -193,6 +230,7 @@ const LaundryDashboard = () => {
                       <TableHead className="text-right">Berat (kg)</TableHead>
                       <TableHead className="text-right">Harga</TableHead>
                       <TableHead className="text-right">Tanggal</TableHead>
+                      <TableHead className="text-right">Aksi</TableHead> {/* New Action column */}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -216,6 +254,57 @@ const LaundryDashboard = () => {
                         </TableCell>
                         <TableCell className="text-right">
                           {order.date}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                aria-haspopup="true"
+                                size="icon"
+                                variant="ghost"
+                              >
+                                <MoreHorizontal className="h-4 w-4" />
+                                <span className="sr-only">Toggle menu</span>
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  handleUpdateOrderStatus(order.id, "Pending")
+                                }
+                              >
+                                Set Pending
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  handleUpdateOrderStatus(
+                                    order.id,
+                                    "In Progress",
+                                  )
+                                }
+                              >
+                                Set In Progress
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  handleUpdateOrderStatus(
+                                    order.id,
+                                    "Completed",
+                                  )
+                                }
+                              >
+                                Set Completed
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                onClick={() => handleDeleteOrder(order.id)}
+                                className="text-red-600"
+                              >
+                                Hapus
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </TableCell>
                       </TableRow>
                     ))}
