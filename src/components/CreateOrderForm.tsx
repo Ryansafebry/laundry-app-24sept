@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +21,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-
 const formSchema = z.object({
   customerName: z.string().min(2, {
     message: "Nama pelanggan harus minimal 2 karakter.",
@@ -36,32 +34,29 @@ const formSchema = z.object({
   price: z.coerce.number().min(1000, {
     message: "Harga harus minimal Rp 1.000.",
   }),
+  paymentMethod: z.enum(["QRIS", "Debit", "Tunai"], {
+    required_error: "Pilih metode pembayaran.",
+  }),
 });
 
 type CreateOrderFormProps = {
-  onOrderCreated: (newOrder: {
-    id: string;
-    customer: string;
-    service: string;
-    status: string;
+@@ -47,6 +50,7 @@ type CreateOrderFormProps = {
     weight: number;
     price: number;
     date: string;
+    paymentMethod: string;
   }) => void;
   onClose: () => void;
 };
-
-const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
-  onOrderCreated,
-  onClose,
-}) => {
-  const form = useForm<z.infer<typeof formSchema>>({
+@@ -59,27 +63,29 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       customerName: "",
       serviceType: "Cuci Kering", // Default value
+      serviceType: "Cuci Kering",
       weight: 0,
       price: 0,
+      paymentMethod: "Tunai",
     },
   });
 
@@ -70,78 +65,46 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
       id: `ORD${Math.floor(Math.random() * 10000)
         .toString()
         .padStart(3, "0")}`, // Simple ID generation
+        .padStart(3, "0")}`,
       customer: values.customerName,
       service: values.serviceType,
       status: "Pending", // Default status for new orders
+      status: "Pending",
       weight: values.weight,
       price: values.price,
       date: new Date().toISOString().split("T")[0], // Current date
+      date: new Date().toISOString().split("T")[0],
+      paymentMethod: values.paymentMethod,
     };
     onOrderCreated(newOrder);
     toast.success("Pesanan baru berhasil ditambahkan!");
     onClose(); // Close the dialog after submission
+    onClose();
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="customerName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nama Pelanggan</FormLabel>
-              <FormControl>
-                <Input placeholder="Masukkan nama pelanggan" {...field} />
-              </FormControl>
-              <FormMessage />
+@@ -146,6 +152,28 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="serviceType"
+          name="paymentMethod"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Jenis Layanan</FormLabel>
+              <FormLabel>Metode Pembayaran</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Pilih jenis layanan" />
+                    <SelectValue placeholder="Pilih metode pembayaran" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Cuci Kering">Cuci Kering</SelectItem>
-                  <SelectItem value="Cuci Setrika">Cuci Setrika</SelectItem>
-                  <SelectItem value="Setrika Saja">Setrika Saja</SelectItem>
+                  <SelectItem value="QRIS">QRIS</SelectItem>
+                  <SelectItem value="Debit">Debit</SelectItem>
+                  <SelectItem value="Tunai">Tunai</SelectItem>
                 </SelectContent>
               </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="weight"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Berat (kg)</FormLabel>
-              <FormControl>
-                <Input type="number" step="0.1" placeholder="0.0" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Harga (Rp)</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="0" {...field} />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -153,5 +116,4 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
     </Form>
   );
 };
-
 export default CreateOrderForm;
