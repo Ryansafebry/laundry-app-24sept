@@ -18,7 +18,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, History, Settings } from "lucide-react"; // Import Settings icon
+import { PlusCircle, History, Settings } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -204,7 +204,6 @@ const LaundryDashboard = () => {
                   <p className="text-xs text-muted-foreground">
                     Pesanan menunggu diproses
                   </p>
-                </p>
                 </CardContent>
               </Card>
               <Card>
