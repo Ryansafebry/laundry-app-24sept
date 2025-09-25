@@ -51,23 +51,25 @@ const SettingsPage = () => {
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <h1 className="text-2xl font-semibold">Pengaturan</h1>
         </header>
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-          {settingsOptions.map((option) => {
-            const IconComponent = option.icon;
-            return (
-              <Link to={option.path} key={option.path}>
-                <Card className="hover:bg-accent transition-colors cursor-pointer">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-lg font-medium">{option.title}</CardTitle>
-                    <IconComponent className="h-6 w-6 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{option.description}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            );
-          })}
+        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+          <div className="flex flex-col gap-4 max-w-2xl mx-auto w-full"> {/* Mengubah ke flex-col untuk tata letak vertikal */}
+            {settingsOptions.map((option) => {
+              const IconComponent = option.icon;
+              return (
+                <Link to={option.path} key={option.path}>
+                  <Card className="hover:bg-accent transition-colors cursor-pointer">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                      <CardTitle className="text-lg font-medium">{option.title}</CardTitle>
+                      <IconComponent className="h-6 w-6 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">{option.description}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
         </main>
       </div>
     </div>
