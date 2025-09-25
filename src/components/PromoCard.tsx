@@ -18,7 +18,7 @@ const PromoCard: React.FC = () => {
         <Percent className="h-4 w-4 text-red-400" /> {/* Ikon merah pastel */}
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold text-blue-500">Diskon 15%</div> {/* Teks diskon biru */}
+        <div className="text-2xl font-bold text-blue-500 animate-blink">Diskon 15%</div> {/* Teks diskon biru dengan animasi berkedip */}
         <CardDescription className="text-xs text-yellow-700"> {/* Deskripsi kuning lebih gelap */}
           Untuk semua layanan Cuci Setrika di bulan ini!
         </CardDescription>

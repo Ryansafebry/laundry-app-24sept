@@ -149,7 +149,7 @@ const LaundryDashboard = () => {
               </Button>
             </div>
           </header>
-          <div className="px-4 sm:px-6 py-4 border-2 border-red-500 rounded-lg shadow-lg mb-4"> {/* Mengganti border-blue-300 menjadi border-red-500 */}
+          <div className="px-4 sm:px-6 py-4 rounded-lg shadow-lg mb-4"> {/* Menghapus border-2 border-red-500 */}
             <PromoCard /> {/* Menambahkan PromoCard di sini */}
           </div>
           {/* Tombol "Tambah Pesanan" yang dipindahkan dan diperbesar */}
