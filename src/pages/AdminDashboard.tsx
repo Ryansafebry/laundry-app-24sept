@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import {
   Card,
   CardHeader,
@@ -10,6 +11,8 @@ import {
 } from "@/components/ui/card";
 import OrderTable from "@/components/OrderTable";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button"; // Import Button
+import { ChevronLeft } from "lucide-react"; // Import ChevronLeft icon
 
 // Definisi tipe untuk pesanan (konsisten dengan OrderTable)
 type Order = {
@@ -103,6 +106,7 @@ const initialOrders: Order[] = [
 
 const AdminDashboard = () => {
   const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const navigate = useNavigate(); // Inisialisasi useNavigate
 
   const handleUpdateOrderStatus = (orderId: string, newStatus: Order["status"]) => {
     setOrders((prevOrders) =>
@@ -117,6 +121,15 @@ const AdminDashboard = () => {
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => navigate(-1)} // Tombol kembali
+          >
+            <ChevronLeft className="h-4 w-4" />
+            <span className="sr-only">Kembali</span>
+          </Button>
           <h1 className="text-2xl font-semibold">Dashboard Admin</h1>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
