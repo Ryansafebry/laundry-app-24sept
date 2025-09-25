@@ -9,8 +9,7 @@ const AccountInfoCard = () => {
   return (
     <div className="flex items-center justify-between p-0">
       <div>
-        <p className="text-sm text-muted-foreground">Masa Aktif Akun</p>
-        {/* Baris expiryDate telah dihapus */}
+        {/* Teks 'Masa Aktif Akun' telah dihapus */}
       </div>
       <CalendarDays className="h-6 w-6 text-muted-foreground" />
     </div>
