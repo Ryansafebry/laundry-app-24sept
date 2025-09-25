@@ -3,14 +3,14 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, UserPlus, History, Settings, ClipboardList } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 type ActionButtonsGridProps = {
   onAddOrderClick: () => void;
 };
 
 const ActionButtonsGrid: React.FC<ActionButtonsGridProps> = ({ onAddOrderClick }) => {
-  const navigate = useNavigate(); // Inisialisasi useNavigate
+  const navigate = useNavigate();
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -33,12 +33,16 @@ const ActionButtonsGrid: React.FC<ActionButtonsGridProps> = ({ onAddOrderClick }
       <Button
         variant="outline"
         className="flex flex-col h-auto py-4 px-2 text-center"
-        onClick={() => navigate("/history")} // Menambahkan fungsi navigasi
+        onClick={() => navigate("/history")}
       >
         <History className="h-6 w-6 mb-1" />
         <span className="text-sm">Riwayat</span>
       </Button>
-      <Button variant="outline" className="flex flex-col h-auto py-4 px-2 text-center">
+      <Button
+        variant="outline"
+        className="flex flex-col h-auto py-4 px-2 text-center"
+        onClick={() => navigate("/settings")} {/* Menambahkan fungsi navigasi */}
+      >
         <Settings className="h-6 w-6 mb-1" />
         <span className="text-sm">Pengaturan</span>
       </Button>
