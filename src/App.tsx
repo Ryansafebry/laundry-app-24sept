@@ -4,7 +4,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LaundryDashboard from "./pages/LaundryDashboard";
 import OrdersPage from "./pages/OrdersPage"; // Import OrdersPage
-import "./index.css";
+import "./globals.css"; // Mengubah impor dari index.css ke globals.css
 
 function App() {
   return (
