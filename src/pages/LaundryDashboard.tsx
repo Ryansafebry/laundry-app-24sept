@@ -20,7 +20,7 @@ import {
 }
 from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, History, Settings, WashingMachine, Wallet } from "lucide-react"; // Import Wallet icon
+import { PlusCircle, History, Settings, WashingMachine, Wallet } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -165,14 +165,7 @@ const LaundryDashboard = () => {
                   </span>
                 </Link>
               </Button>
-              <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
-                <Link to="/admin">
-                  <Settings className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Admin
-                  </span>
-                </Link>
-              </Button>
+              {/* Tombol Admin dihapus */}
               <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
                 <Link to="/settings"> {/* Tombol Pengaturan */}
                   <Settings className="h-3.5 w-3.5" />
@@ -225,7 +218,7 @@ const LaundryDashboard = () => {
                         <TableHead>ID Pesanan</TableHead>
                         <TableHead>Pelanggan</TableHead>
                         <TableHead>Layanan</TableHead>
-                        <TableHead>Jenis Pakaian</TableHead> {/* Kolom baru */}
+                        <TableHead>Jenis Pakaian</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Pembayaran</TableHead>
                         <TableHead>Jenis Pesanan</TableHead>
@@ -243,7 +236,7 @@ const LaundryDashboard = () => {
                           </TableCell>
                           <TableCell>{order.customer}</TableCell>
                           <TableCell>{order.service}</TableCell>
-                          <TableCell>{order.clothingType || "-"}</TableCell> {/* Menampilkan jenis pakaian */}
+                          <TableCell>{order.clothingType || "-"}</TableCell>
                           <TableCell>
                             <Badge variant={getStatusVariant(order.status)}>
                               {order.status}
