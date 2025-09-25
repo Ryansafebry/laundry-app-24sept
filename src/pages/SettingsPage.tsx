@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Settings as SettingsIcon } from "lucide-react";
-import { Card, CardContent, CardTitle } from "@/components/ui/card"; // Menghapus CardHeader dan CardDescription dari import jika tidak digunakan di sini
+import { Card, CardTitle } from "@/components/ui/card"; // Menghapus CardContent dari import
 import { cn } from "@/lib/utils";
 
 // Import komponen pengaturan baru
@@ -32,14 +32,11 @@ const SettingsPage = () => {
     switch (activeSetting) {
       case "general":
         return (
-          <Card>
-            {/* CardHeader dan CardDescription dihapus */}
-            <CardContent className="p-6">
-              <CardTitle className="mb-2">Pengaturan Umum</CardTitle>
-              <p className="text-muted-foreground">
-                Pilih opsi dari menu samping untuk mengelola pengaturan spesifik.
-              </p>
-            </CardContent>
+          <Card className="p-6"> {/* Memindahkan padding ke Card */}
+            <CardTitle className="mb-2">Pengaturan Umum</CardTitle>
+            <p className="text-muted-foreground">
+              Pilih opsi dari menu samping untuk mengelola pengaturan spesifik.
+            </p>
           </Card>
         );
       case "notifications":
