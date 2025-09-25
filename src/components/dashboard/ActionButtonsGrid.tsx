@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, UserPlus, History, Settings, ClipboardList } from "lucide-react";
+import { PlusCircle, History, Settings, ClipboardList } from "lucide-react"; // Menghapus UserPlus
 import { useNavigate } from "react-router-dom";
 
 type ActionButtonsGridProps = {
@@ -41,7 +41,7 @@ const ActionButtonsGrid: React.FC<ActionButtonsGridProps> = ({ onAddOrderClick }
       <Button
         variant="outline"
         className="flex flex-col h-auto py-4 px-2 text-center"
-        onClick={() => navigate("/settings")} {/* Menambahkan fungsi navigasi */}
+        onClick={() => navigate("/settings")}
       >
         <Settings className="h-6 w-6 mb-1" />
         <span className="text-sm">Pengaturan</span>
