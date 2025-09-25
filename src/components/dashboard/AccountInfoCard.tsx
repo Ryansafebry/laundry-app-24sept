@@ -1,24 +1,22 @@
 "use client";
 
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Clock } from "lucide-react";
+import React from 'react';
+// Menghapus impor Card dan CardContent
+import { CalendarDays } from 'lucide-react';
 
-const AccountInfoCard: React.FC = () => {
+const AccountInfoCard = () => {
+  const expiryDate = "2024-12-31"; // Example expiry date
+
   return (
-    <Card className="p-4 shadow-sm">
-      <CardContent className="flex items-center justify-between p-0">
+    <div className="p-4 shadow-sm rounded-lg border bg-card text-card-foreground"> {/* Mengganti Card dengan div dan menambahkan kelas styling */}
+      <div className="flex items-center justify-between p-0"> {/* Mengganti CardContent dengan div */}
         <div>
           <p className="text-sm text-muted-foreground">Masa Aktif Akun</p>
-          <p className="text-base font-semibold">01/01/2100</p>
+          <p className="text-lg font-semibold">{expiryDate}</p>
         </div>
-        <Button variant="default" className="bg-yellow-400 hover:bg-yellow-500 text-black h-8 px-3">
-          <Clock className="h-4 w-4 mr-2" />
-          Perpanjang
-        </Button>
-      </CardContent>
-    </Card>
+        <CalendarDays className="h-6 w-6 text-muted-foreground" />
+      </div>
+    </div>
   );
 };
 
