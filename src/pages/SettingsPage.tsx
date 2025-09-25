@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Settings as SettingsIcon } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { cn } from "@/lib/utils"; // Import cn untuk menggabungkan kelas Tailwind
+import { Card, CardContent, CardTitle } from "@/components/ui/card"; // Menghapus CardHeader dan CardDescription dari import jika tidak digunakan di sini
+import { cn } from "@/lib/utils";
 
 // Import komponen pengaturan baru
 import NotificationSettings from "@/components/settings/NotificationSettings";
@@ -33,13 +33,9 @@ const SettingsPage = () => {
       case "general":
         return (
           <Card>
-            <CardHeader className="px-7">
-              <CardTitle>Pengaturan Umum</CardTitle>
-              <CardDescription>
-                Kelola preferensi dan konfigurasi aplikasi Anda.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+            {/* CardHeader dan CardDescription dihapus */}
+            <CardContent className="p-6">
+              <CardTitle className="mb-2">Pengaturan Umum</CardTitle>
               <p className="text-muted-foreground">
                 Pilih opsi dari menu samping untuk mengelola pengaturan spesifik.
               </p>
