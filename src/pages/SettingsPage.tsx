@@ -3,8 +3,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Settings as SettingsIcon } from "lucide-react";
-import { Card, CardTitle } from "@/components/ui/card"; // Menghapus CardContent dari import
+import {
+  ChevronLeft,
+  Settings as SettingsIcon, // Icon untuk judul halaman
+  Bell, // Untuk Notifikasi
+  MapPin, // Untuk Lokasi
+  Package, // Untuk Pengaturan Layanan
+  Truck, // Untuk Pengaturan Antar-Jemput
+  Users, // Untuk Pengaturan Pelanggan
+  Info, // Untuk Tentang Kami
+  Settings // Untuk Umum
+} from "lucide-react";
+import { Card, CardTitle, CardContent } from "@/components/ui/card"; // Menambahkan CardContent kembali untuk Card navigasi
 import { cn } from "@/lib/utils";
 
 // Import komponen pengaturan baru
@@ -32,7 +42,7 @@ const SettingsPage = () => {
     switch (activeSetting) {
       case "general":
         return (
-          <Card className="p-6"> {/* Memindahkan padding ke Card */}
+          <Card className="p-6">
             <CardTitle className="mb-2">Pengaturan Umum</CardTitle>
             <p className="text-muted-foreground">
               Pilih opsi dari menu samping untuk mengelola pengaturan spesifik.
@@ -75,67 +85,66 @@ const SettingsPage = () => {
           </h1>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-[240px_1fr]">
-          <nav
-            className="grid gap-4 text-sm text-muted-foreground"
-            x-chunk="dashboard-04-chunk-0"
-          >
-            <a
-              href="#"
-              className={cn(
-                "font-semibold",
-                activeSetting === "general" && "text-primary"
-              )}
-              onClick={() => setActiveSetting("general")}
-            >
-              Umum
-            </a>
-            <a
-              href="#"
-              className={cn(
-                activeSetting === "notifications" && "text-primary"
-              )}
-              onClick={() => setActiveSetting("notifications")}
-            >
-              Notifikasi
-            </a>
-            <a
-              href="#"
-              className={cn(activeSetting === "location" && "text-primary")}
-              onClick={() => setActiveSetting("location")}
-            >
-              Lokasi
-            </a>
-            <a
-              href="#"
-              className={cn(activeSetting === "services" && "text-primary")}
-              onClick={() => setActiveSetting("services")}
-            >
-              Pengaturan Layanan
-            </a>
-            <a
-              href="#"
-              className={cn(
-                activeSetting === "pickup-delivery" && "text-primary"
-              )}
-              onClick={() => setActiveSetting("pickup-delivery")}
-            >
-              Pengaturan Antar-Jemput
-            </a>
-            <a
-              href="#"
-              className={cn(activeSetting === "customers" && "text-primary")}
-              onClick={() => setActiveSetting("customers")}
-            >
-              Pengaturan Pelanggan
-            </a>
-            <a
-              href="#"
-              className={cn(activeSetting === "about-us" && "text-primary")}
-              onClick={() => setActiveSetting("about-us")}
-            >
-              Tentang Kami
-            </a>
-          </nav>
+          <Card className="h-fit"> {/* Membungkus nav dalam Card */}
+            <CardContent className="p-4 grid gap-2"> {/* Padding dan gap untuk item navigasi */}
+              <Button
+                variant={activeSetting === "general" ? "secondary" : "ghost"}
+                className="justify-start w-full text-base"
+                onClick={() => setActiveSetting("general")}
+              >
+                <Settings className="mr-2 h-4 w-4" />
+                Umum
+              </Button>
+              <Button
+                variant={activeSetting === "notifications" ? "secondary" : "ghost"}
+                className="justify-start w-full text-base"
+                onClick={() => setActiveSetting("notifications")}
+              >
+                <Bell className="mr-2 h-4 w-4" />
+                Notifikasi
+              </Button>
+              <Button
+                variant={activeSetting === "location" ? "secondary" : "ghost"}
+                className="justify-start w-full text-base"
+                onClick={() => setActiveSetting("location")}
+              >
+                <MapPin className="mr-2 h-4 w-4" />
+                Lokasi
+              </Button>
+              <Button
+                variant={activeSetting === "services" ? "secondary" : "ghost"}
+                className="justify-start w-full text-base"
+                onClick={() => setActiveSetting("services")}
+              >
+                <Package className="mr-2 h-4 w-4" />
+                Pengaturan Layanan
+              </Button>
+              <Button
+                variant={activeSetting === "pickup-delivery" ? "secondary" : "ghost"}
+                className="justify-start w-full text-base"
+                onClick={() => setActiveSetting("pickup-delivery")}
+              >
+                <Truck className="mr-2 h-4 w-4" />
+                Pengaturan Antar-Jemput
+              </Button>
+              <Button
+                variant={activeSetting === "customers" ? "secondary" : "ghost"}
+                className="justify-start w-full text-base"
+                onClick={() => setActiveSetting("customers")}
+              >
+                <Users className="mr-2 h-4 w-4" />
+                Pengaturan Pelanggan
+              </Button>
+              <Button
+                variant={activeSetting === "about-us" ? "secondary" : "ghost"}
+                className="justify-start w-full text-base"
+                onClick={() => setActiveSetting("about-us")}
+              >
+                <Info className="mr-2 h-4 w-4" />
+                Tentang Kami
+              </Button>
+            </CardContent>
+          </Card>
           <div className="grid gap-6">{renderSettingComponent()}</div>
         </main>
       </div>
