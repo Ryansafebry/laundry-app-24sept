@@ -27,7 +27,8 @@ type Order = {
   weight: number;
   price: number;
   date: string;
-  paymentMethod: string; // Menambahkan metode pembayaran
+  paymentMethod: string;
+  orderType: "Pickup" | "Delivery"; // Menambahkan orderType
 };
 
 // Contoh data riwayat pesanan
@@ -41,6 +42,7 @@ const historicalOrders: Order[] = [
     price: 35000,
     date: "2023-10-24",
     paymentMethod: "Tunai",
+    orderType: "Delivery", // Menambahkan orderType
   },
   {
     id: "ORD006",
@@ -51,6 +53,7 @@ const historicalOrders: Order[] = [
     price: 12500,
     date: "2023-10-23",
     paymentMethod: "QRIS",
+    orderType: "Pickup", // Menambahkan orderType
   },
   {
     id: "ORD007",
@@ -61,6 +64,7 @@ const historicalOrders: Order[] = [
     price: 15000,
     date: "2023-10-22",
     paymentMethod: "Debit",
+    orderType: "Pickup", // Menambahkan orderType
   },
   {
     id: "ORD008",
@@ -71,6 +75,7 @@ const historicalOrders: Order[] = [
     price: 25000,
     date: "2023-10-21",
     paymentMethod: "Tunai",
+    orderType: "Delivery", // Menambahkan orderType
   },
 ];
 
@@ -110,7 +115,8 @@ const History = () => {
                     <TableHead>Pelanggan</TableHead>
                     <TableHead>Layanan</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Pembayaran</TableHead> {/* Kolom baru */}
+                    <TableHead>Pembayaran</TableHead>
+                    <TableHead>Jenis Pesanan</TableHead> {/* Kolom baru */}
                     <TableHead className="text-right">Berat (kg)</TableHead>
                     <TableHead className="text-right">Harga</TableHead>
                     <TableHead className="text-right">Tanggal</TableHead>
@@ -127,7 +133,8 @@ const History = () => {
                           {order.status}
                         </Badge>
                       </TableCell>
-                      <TableCell>{order.paymentMethod}</TableCell> {/* Menampilkan metode pembayaran */}
+                      <TableCell>{order.paymentMethod}</TableCell>
+                      <TableCell>{order.orderType}</TableCell> {/* Menampilkan jenis pesanan */}
                       <TableCell className="text-right">
                         {order.weight}
                       </TableCell>

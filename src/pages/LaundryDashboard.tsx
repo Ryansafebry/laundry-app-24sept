@@ -18,7 +18,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, History } from "lucide-react"; // Import History icon
+import { PlusCircle, History } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -27,7 +27,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import CreateOrderForm from "@/components/CreateOrderForm"; // Import the form component
+import CreateOrderForm from "@/components/CreateOrderForm";
 
 // Definisi tipe untuk pesanan
 type Order = {
@@ -39,6 +39,7 @@ type Order = {
   price: number;
   date: string;
   paymentMethod: string;
+  orderType: "Pickup" | "Delivery"; // Menambahkan orderType
 };
 
 // Contoh data pesanan awal
@@ -52,6 +53,7 @@ const initialOrders: Order[] = [
     price: 15000,
     date: "2023-10-26",
     paymentMethod: "QRIS",
+    orderType: "Pickup", // Menambahkan orderType
   },
   {
     id: "ORD002",
@@ -62,6 +64,7 @@ const initialOrders: Order[] = [
     price: 30000,
     date: "2023-10-25",
     paymentMethod: "Debit",
+    orderType: "Delivery", // Menambahkan orderType
   },
   {
     id: "ORD003",
@@ -72,6 +75,7 @@ const initialOrders: Order[] = [
     price: 10000,
     date: "2023-10-26",
     paymentMethod: "Tunai",
+    orderType: "Pickup", // Menambahkan orderType
   },
   {
     id: "ORD004",
@@ -82,6 +86,7 @@ const initialOrders: Order[] = [
     price: 20000,
     date: "2023-10-27",
     paymentMethod: "QRIS",
+    orderType: "Delivery", // Menambahkan orderType
   },
 ];
 
@@ -235,6 +240,7 @@ const LaundryDashboard = () => {
                       <TableHead>Layanan</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Pembayaran</TableHead>
+                      <TableHead>Jenis Pesanan</TableHead> {/* Kolom baru */}
                       <TableHead className="text-right">Berat (kg)</TableHead>
                       <TableHead className="text-right">Harga</TableHead>
                       <TableHead className="text-right">Tanggal</TableHead>
@@ -254,6 +260,7 @@ const LaundryDashboard = () => {
                           </Badge>
                         </TableCell>
                         <TableCell>{order.paymentMethod}</TableCell>
+                        <TableCell>{order.orderType}</TableCell> {/* Menampilkan jenis pesanan */}
                         <TableCell className="text-right">
                           {order.weight}
                         </TableCell>

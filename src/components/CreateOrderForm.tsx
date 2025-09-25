@@ -36,6 +36,9 @@ const formSchema = z.object({
   price: z.coerce.number().min(1000, {
     message: "Harga harus minimal Rp 1.000.",
   }),
+  orderType: z.enum(["Pickup", "Delivery"], { // Bidang baru untuk jenis pesanan
+    required_error: "Pilih jenis pesanan.",
+  }),
 });
 
 type CreateOrderFormProps = {
@@ -47,6 +50,7 @@ type CreateOrderFormProps = {
     weight: number;
     price: number;
     date: string;
+    orderType: "Pickup" | "Delivery"; // Menambahkan orderType
   }) => void;
   onClose: () => void;
 };
@@ -59,9 +63,10 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       customerName: "",
-      serviceType: "Cuci Kering", // Default value
+      serviceType: "Cuci Kering",
       weight: 0,
       price: 0,
+      orderType: "Pickup", // Default value for new field
     },
   });
 
@@ -69,17 +74,18 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
     const newOrder = {
       id: `ORD${Math.floor(Math.random() * 10000)
         .toString()
-        .padStart(3, "0")}`, // Simple ID generation
+        .padStart(3, "0")}`,
       customer: values.customerName,
       service: values.serviceType,
-      status: "Pending", // Default status for new orders
+      status: "Pending",
       weight: values.weight,
       price: values.price,
-      date: new Date().toISOString().split("T")[0], // Current date
+      date: new Date().toISOString().split("T")[0],
+      orderType: values.orderType, // Menyertakan orderType
     };
     onOrderCreated(newOrder);
     toast.success("Pesanan baru berhasil ditambahkan!");
-    onClose(); // Close the dialog after submission
+    onClose();
   };
 
   return (
@@ -142,6 +148,27 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
               <FormControl>
                 <Input type="number" placeholder="0" {...field} />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="orderType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Jenis Pesanan</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih jenis pesanan" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Pickup">Pickup</SelectItem>
+                  <SelectItem value="Delivery">Delivery</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
