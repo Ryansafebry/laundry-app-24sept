@@ -18,7 +18,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, History, Settings } from "lucide-react";
+import { PlusCircle, History, Settings, WashingMachine } from "lucide-react"; // Import WashingMachine icon
 import {
   Dialog,
   DialogContent,
@@ -38,7 +38,7 @@ type Order = {
   weight: number;
   price: number;
   date: string;
-  paymentMethod: string;
+  paymentMethod: "QRIS" | "Debit" | "Tunai";
   orderType: "Pickup" | "Delivery";
   location?: string; // Menambahkan location sebagai opsional
 };
@@ -122,7 +122,10 @@ const LaundryDashboard = () => {
         {/* Wrapper baru untuk membatasi lebar konten */}
         <div className="max-w-4xl mx-auto w-full">
           <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-            <h1 className="text-2xl font-semibold">Dashboard Laundry</h1>
+            <h1 className="text-2xl font-semibold flex items-center gap-2"> {/* Added flex, items-center, gap-2 */}
+              <WashingMachine className="h-6 w-6 text-yellow-500" /> {/* WashingMachine icon */}
+              BetterLaundry
+            </h1>
             <div className="ml-auto flex items-center gap-2">
               <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
                 <Link to="/history">
