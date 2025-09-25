@@ -19,7 +19,7 @@ import {
 }
 from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, History, Settings, WashingMachine, Wallet } from "lucide-react";
+import { WashingMachine } from "lucide-react"; // Hanya WashingMachine yang tersisa di header utama
 import {
   Dialog,
   DialogContent,
@@ -30,7 +30,13 @@ import {
 }
 from "@/components/ui/dialog";
 import CreateOrderForm from "@/components/CreateOrderForm";
-import PromoCard from "@/components/PromoCard"; // Import PromoCard
+
+// Import komponen dashboard baru
+import AccountInfoCard from "@/components/dashboard/AccountInfoCard";
+import BranchSelector from "@/components/dashboard/BranchSelector";
+import DailySummaryCard from "@/components/dashboard/DailySummaryCard";
+import ActionButtonsGrid from "@/components/dashboard/ActionButtonsGrid";
+import HelpCard from "@/components/dashboard/HelpCard";
 
 // Definisi tipe untuk pesanan
 type Order = {
@@ -44,7 +50,7 @@ type Order = {
   paymentMethod: "QRIS" | "Debit" | "Tunai";
   orderType: "Pickup" | "Delivery";
   location?: string;
-  clothingType?: string; // Menambahkan clothingType
+  clothingType?: string;
 };
 
 // Contoh data pesanan awal
@@ -137,54 +143,39 @@ const LaundryDashboard = () => {
     }
   };
 
+  // Calculate summary data for DailySummaryCard
+  const totalRevenue = orders.reduce((sum, order) => sum + order.price, 0);
+  const totalWeight = orders.reduce((sum, order) => sum + order.weight, 0);
+  const totalPcs = orders.filter(order => order.service === "Cuci Satuan").length; // Simplified for now
+  const totalMeters = 0; // Placeholder, as there's no meter-based service yet
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-        {/* Wrapper baru untuk membatasi lebar konten */}
+        {/* Wrapper untuk membatasi lebar konten */}
         <div className="max-w-4xl mx-auto w-full">
           <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
             <h1 className="text-2xl font-semibold flex items-center gap-2">
               <WashingMachine className="h-6 w-6 text-yellow-500" />
-              BetterLaundry
+              binatu
             </h1>
-            <div className="ml-auto flex items-center gap-2">
-              <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
-                <Link to="/wallet"> {/* Tombol Dompet */}
-                  <Wallet className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Dompet
-                  </span>
-                </Link>
-              </Button>
-              <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
-                <Link to="/history">
-                  <History className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Riwayat
-                  </span>
-                </Link>
-              </Button>
-              <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
-                <Link to="/settings"> {/* Tombol Pengaturan */}
-                  <Settings className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Pengaturan
-                  </span>
-                </Link>
-              </Button>
-            </div>
+            {/* Tombol navigasi lama dihapus dari sini */}
           </header>
-          <div className="px-4 sm:px-6 py-4 rounded-lg shadow-lg mb-4">
-            <PromoCard />
-          </div>
-          {/* Tombol "Tambah Pesanan" yang dipindahkan dan diperbesar */}
-          <div className="px-4 sm:px-6 py-4">
+
+          <div className="px-4 sm:px-6 py-4 space-y-4">
+            <AccountInfoCard />
+            <BranchSelector />
+            <DailySummaryCard
+              totalRevenue={totalRevenue}
+              totalOrders={orders.length}
+              totalWeight={totalWeight}
+              totalPcs={totalPcs}
+              totalMeters={totalMeters}
+            />
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button size="lg" className="w-full bg-yellow-400 hover:bg-yellow-500 text-black gap-2">
-                  <PlusCircle className="h-5 w-5" />
-                  <span>Tambah Pesanan Baru</span>
-                </Button>
+                {/* Tombol "Tambah Pesanan" dari ActionButtonsGrid akan memicu dialog ini */}
+                <ActionButtonsGrid onAddOrderClick={() => setIsDialogOpen(true)} />
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -199,17 +190,18 @@ const LaundryDashboard = () => {
                 />
               </DialogContent>
             </Dialog>
+            <HelpCard />
           </div>
+
           <main className="flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
             <div className="grid auto-rows-max items-start gap-4 md:gap-8">
               <Card>
                 <CardHeader className="px-7">
-                  <CardTitle>Pesanan</CardTitle>
+                  <CardTitle>Pesanan Terbaru</CardTitle>
                   <CardDescription>
-                    Pesanan laundry terbaru Anda.
+                    Daftar pesanan laundry yang sedang aktif.
                   </CardDescription>
                 </CardHeader>
-                {/* CardContent dihapus, Table sekarang langsung di bawah Card */}
                 <Table>
                   <TableHeader>
                     <TableRow>
