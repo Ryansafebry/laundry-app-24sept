@@ -18,7 +18,6 @@ import {
   Home,
   Settings,
   PlusCircle,
-  ArrowRight, // Mengimpor ArrowRight
 } from "lucide-react";
 import OrderTable from "@/components/OrderTable";
 import { toast } from "sonner";
