@@ -19,7 +19,7 @@ import {
 }
 from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { WashingMachine } from "lucide-react"; // Hanya WashingMachine yang tersisa di header utama
+import { WashingMachine } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -37,9 +37,9 @@ import BranchSelector from "@/components/dashboard/BranchSelector";
 import DailySummaryCard from "@/components/dashboard/DailySummaryCard";
 import ActionButtonsGrid from "@/components/dashboard/ActionButtonsGrid";
 import HelpCard from "@/components/dashboard/HelpCard";
-import PromoCard from "@/components/PromoCard"; // Import PromoCard
+import PromoCard from "@/components/PromoCard";
 
-// Definisi tipe untuk pesanan (dipindahkan ke OrdersPage.tsx)
+// Definisi tipe untuk pesanan
 type Order = {
   id: string;
   customer: string;
@@ -54,7 +54,7 @@ type Order = {
   clothingType?: string;
 };
 
-// Contoh data pesanan awal (dipindahkan ke OrdersPage.tsx)
+// Contoh data pesanan awal
 const initialOrders: Order[] = [
   {
     id: "ORD001",
@@ -124,8 +124,6 @@ const initialOrders: Order[] = [
 ];
 
 const LaundryDashboard = () => {
-  // Menggunakan state lokal untuk orders, meskipun data awal dipindahkan,
-  // ini untuk menjaga fungsionalitas 'Tambah Pesanan' tetap di dashboard.
   const [orders, setOrders] = useState<Order[]>(initialOrders);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -133,17 +131,39 @@ const LaundryDashboard = () => {
     setOrders((prevOrders) => [...prevOrders, newOrder]);
   };
 
-  // getStatusVariant dipindahkan ke OrdersPage.tsx
+  const getStatusVariant = (status: string) => {
+    switch (status) {
+      case "Pending":
+        return "destructive";
+      case "In Progress":
+        return "secondary";
+      case "Completed":
+        return "default";
+      default:
+        return "outline";
+    }
+  };
 
   // Calculate summary data for DailySummaryCard
   const totalRevenue = orders.reduce((sum, order) => sum + order.price, 0);
   const totalWeight = orders.reduce((sum, order) => sum + order.weight, 0);
-  const totalPcs = orders.filter(order => order.service === "Cuci Satuan").length; // Simplified for now
-  const totalMeters = 0; // Placeholder, as there's no meter-based service yet
+  const totalPcs = orders.filter(order => order.service === "Cuci Satuan").length;
+  const totalMeters = 0;
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+    <div className="relative min-h-screen w-full flex flex-col bg-yellow-50">
+      {/* Background accents layer */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <WashingMachine className="absolute top-10 left-1/4 h-24 w-24 text-yellow-200 opacity-30 rotate-12" />
+        <WashingMachine className="absolute bottom-20 right-1/3 h-32 w-32 text-yellow-200 opacity-20 -rotate-45" />
+        <WashingMachine className="absolute top-1/2 left-10 h-16 w-16 text-yellow-200 opacity-25 rotate-6" />
+        <WashingMachine className="absolute bottom-5 left-1/2 h-20 w-20 text-yellow-200 opacity-15 rotate-90" />
+        <WashingMachine className="absolute top-1/3 right-20 h-28 w-28 text-yellow-200 opacity-35 -rotate-24" />
+        <WashingMachine className="absolute top-3/4 left-1/4 h-20 w-20 text-yellow-200 opacity-20 rotate-30" />
+        <WashingMachine className="absolute top-1/4 right-1/4 h-16 w-16 text-yellow-200 opacity-25 -rotate-15" />
+      </div>
+
+      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 relative z-10">
         {/* Wrapper untuk membatasi lebar konten */}
         <div className="max-w-4xl mx-auto w-full">
           <header className="sticky top-0 z-30 flex h-14 items-center justify-center border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -151,13 +171,12 @@ const LaundryDashboard = () => {
               <WashingMachine className="h-16 w-16 text-yellow-500" />
               BetterLaundry
             </h1>
-            {/* Tombol navigasi lama dihapus dari sini */}
           </header>
 
           <div className="px-4 sm:px-6 py-4 space-y-4">
             <AccountInfoCard />
             <BranchSelector />
-            <PromoCard /> {/* Menambahkan PromoCard di sini */}
+            <PromoCard />
             <DailySummaryCard
               totalRevenue={totalRevenue}
               totalOrders={orders.length}
@@ -167,7 +186,6 @@ const LaundryDashboard = () => {
             />
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                {/* Tombol "Tambah Pesanan" dari ActionButtonsGrid akan memicu dialog ini */}
                 <ActionButtonsGrid onAddOrderClick={() => setIsDialogOpen(true)} />
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
@@ -185,8 +203,6 @@ const LaundryDashboard = () => {
             </Dialog>
             <HelpCard />
           </div>
-
-          {/* Bagian main yang berisi tabel pesanan telah dipindahkan ke OrdersPage.tsx */}
         </div>
       </div>
     </div>
