@@ -122,28 +122,6 @@ const LaundryDashboard = () => {
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <h1 className="text-2xl font-semibold">Dashboard Laundry</h1>
           <div className="ml-auto flex items-center gap-2">
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button size="sm" className="h-8 gap-1">
-                  <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Tambah Pesanan
-                  </span>
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Buat Pesanan Baru</DialogTitle>
-                  <DialogDescription>
-                    Isi detail pesanan laundry baru di sini.
-                  </DialogDescription>
-                </DialogHeader>
-                <CreateOrderForm
-                  onOrderCreated={handleOrderCreated}
-                  onClose={() => setIsDialogOpen(false)}
-                />
-              </DialogContent>
-            </Dialog>
             <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
               <Link to="/history">
                 <History className="h-3.5 w-3.5" />
@@ -162,8 +140,31 @@ const LaundryDashboard = () => {
             </Button>
           </div>
         </header>
+        {/* Tombol "Tambah Pesanan" yang dipindahkan dan diperbesar */}
+        <div className="px-4 sm:px-6 py-4">
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button size="lg" className="w-full bg-yellow-400 hover:bg-yellow-500 text-black gap-2">
+                <PlusCircle className="h-5 w-5" />
+                <span>Tambah Pesanan Baru</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Buat Pesanan Baru</DialogTitle>
+                <DialogDescription>
+                  Isi detail pesanan laundry baru di sini.
+                </DialogDescription>
+              </DialogHeader>
+              <CreateOrderForm
+                onOrderCreated={handleOrderCreated}
+                onClose={() => setIsDialogOpen(false)}
+              />
+            </DialogContent>
+          </Dialog>
+        </div>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
-          <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-3"> {/* Mengubah col-span menjadi 3 */}
+          <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-3">
             <Card>
               <CardHeader className="px-7">
                 <CardTitle>Pesanan</CardTitle>
@@ -181,7 +182,7 @@ const LaundryDashboard = () => {
                       <TableHead>Status</TableHead>
                       <TableHead>Pembayaran</TableHead>
                       <TableHead>Jenis Pesanan</TableHead>
-                      <TableHead>Lokasi</TableHead> {/* Kolom baru untuk lokasi */}
+                      <TableHead>Lokasi</TableHead>
                       <TableHead className="text-right">Berat (kg)</TableHead>
                       <TableHead className="text-right">Harga</TableHead>
                       <TableHead className="text-right">Tanggal</TableHead>
@@ -206,7 +207,7 @@ const LaundryDashboard = () => {
                           {order.orderType === "Pickup" && order.location
                             ? "Tersamar"
                             : order.location || "-"}
-                        </TableCell> {/* Menampilkan lokasi tersamar atau '-' */}
+                        </TableCell>
                         <TableCell className="text-right">
                           {order.weight}
                         </TableCell>
