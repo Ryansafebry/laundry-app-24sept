@@ -1,24 +1,62 @@
 "use client";
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tag } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "@/components/ui/carousel";
+import PromoItem from "./PromoItem";
+import Autoplay from "embla-carousel-autoplay";
 
-const PromoCard = () => {
+const promos = [
+  {
+    title: "Promo Spesial!",
+    description: "Dapatkan diskon 10% untuk cuci kering.",
+    bgColor: "bg-gradient-to-r from-yellow-400 to-yellow-500",
+    buttonText: "Lihat Detail",
+    buttonColor: "text-yellow-700",
+  },
+  {
+    title: "Gratis Antar Jemput!",
+    description: "Untuk pesanan di atas Rp 50.000.",
+    bgColor: "bg-gradient-to-r from-green-400 to-green-500",
+    buttonText: "Pesan Sekarang",
+    buttonColor: "text-green-700",
+  },
+  {
+    title: "Member Baru Diskon 15%",
+    description: "Daftar sekarang dan nikmati keuntungannya!",
+    bgColor: "bg-gradient-to-r from-blue-400 to-blue-500",
+    buttonText: "Gabung Sekarang",
+    buttonColor: "text-blue-700",
+  },
+];
+
+const PromoCarousel = () => {
+  const plugin = React.useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true })
+  );
+
   return (
-    <Card className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md border border-black rounded-xl">
-      <CardContent className="flex items-center justify-between p-4">
-        <div className="flex items-center gap-3">
-          <Tag className="h-6 w-6" />
-          <div>
-            <h3 className="text-lg font-semibold">Promo Spesial!</h3>
-            <p className="text-sm">Dapatkan diskon 10% untuk cuci kering.</p>
-          </div>
-        </div>
-        <Button variant="secondary" className="text-yellow-700">Lihat Detail</Button>
-      </CardContent>
-    </Card>
+    <Carousel
+      plugins={[plugin.current]}
+      className="w-full"
+      onMouseEnter={plugin.current.stop}
+      onMouseLeave={plugin.current.reset}
+    >
+      <CarouselContent>
+        {promos.map((promo, index) => (
+          <CarouselItem key={index}>
+            <PromoItem {...promo} />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious className="hidden sm:flex" />
+      <CarouselNext className="hidden sm:flex" />
+    </Carousel>
   );
 };
 
-export default PromoCard;
+export default PromoCarousel;

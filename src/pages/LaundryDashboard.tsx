@@ -1,211 +1,257 @@
 "use client";
-import React, { useState } from "react";
+
+import React from "react";
 import { Link } from "react-router-dom";
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-}
-from "@/components/ui/card";
+  Bell,
+  CircleUser,
+  Home,
+  LineChart,
+  Menu,
+  Package,
+  Package2,
+  Search,
+  ShoppingCart,
+  Users,
+} from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-}
-from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { WashingMachine } from "lucide-react";
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-}
-from "@/components/ui/dialog";
-import CreateOrderForm from "@/components/CreateOrderForm";
-
-// Import komponen dashboard baru
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import AccountInfoCard from "@/components/dashboard/AccountInfoCard";
 import BranchSelector from "@/components/dashboard/BranchSelector";
+import PromoCarousel from "@/components/PromoCard"; // Mengganti import PromoCard menjadi PromoCarousel
 import DailySummaryCard from "@/components/dashboard/DailySummaryCard";
 import ActionButtonsGrid from "@/components/dashboard/ActionButtonsGrid";
 import HelpCard from "@/components/dashboard/HelpCard";
-import PromoCard from "@/components/PromoCard";
-
-// Definisi tipe untuk pesanan
-type Order = {
-  id: string;
-  customer: string;
-  service: string;
-  status: "Pending" | "In Progress" | "Completed";
-  weight: number;
-  price: number;
-  date: string;
-  paymentMethod: "QRIS" | "Debit" | "Tunai";
-  orderType: "Pickup" | "Delivery";
-  location?: string;
-  clothingType?: string;
-};
-
-// Contoh data pesanan awal
-const initialOrders: Order[] = [
-  {
-    id: "ORD001",
-    customer: "Budi Santoso",
-    service: "Cuci Kering",
-    status: "Pending",
-    weight: 3,
-    price: 15000,
-    date: "2023-10-26",
-    paymentMethod: "QRIS",
-    orderType: "Pickup",
-    location: "Jl. Merdeka No. 10",
-    clothingType: undefined,
-  },
-  {
-    id: "ORD002",
-    customer: "Siti Aminah",
-    service: "Cuci Setrika",
-    status: "In Progress",
-    weight: 5,
-    price: 30000,
-    date: "2023-10-25",
-    paymentMethod: "Debit",
-    orderType: "Delivery",
-    location: undefined,
-    clothingType: undefined,
-  },
-  {
-    id: "ORD003",
-    customer: "Joko Susilo",
-    service: "Setrika Saja",
-    status: "Pending",
-    weight: 2,
-    price: 10000,
-    date: "2023-10-26",
-    paymentMethod: "Tunai",
-    orderType: "Pickup",
-    location: "Perumahan Indah Blok C-5",
-    clothingType: undefined,
-  },
-  {
-    id: "ORD004",
-    customer: "Dewi Lestari",
-    service: "Cuci Kering",
-    status: "Completed",
-    weight: 4,
-    price: 20000,
-    date: "2023-10-27",
-    paymentMethod: "QRIS",
-    orderType: "Delivery",
-    location: undefined,
-    clothingType: undefined,
-  },
-  {
-    id: "ORD007",
-    customer: "Fajar Nugraha",
-    service: "Cuci Satuan",
-    status: "Pending",
-    weight: 0.5,
-    price: 25000,
-    date: "2023-10-28",
-    paymentMethod: "Tunai",
-    orderType: "Pickup",
-    location: "Jl. Mawar No. 5",
-    clothingType: "Gaun Pesta",
-  },
-];
 
 const LaundryDashboard = () => {
-  const [orders, setOrders] = useState<Order[]>(initialOrders);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const handleOrderCreated = (newOrder: Order) => {
-    setOrders((prevOrders) => [...prevOrders, newOrder]);
+  const handleAddOrderClick = () => {
+    console.log("Tambah Pesanan clicked!");
+    // Logika untuk menambah pesanan
   };
-
-  const getStatusVariant = (status: string) => {
-    switch (status) {
-      case "Pending":
-        return "destructive";
-      case "In Progress":
-        return "secondary";
-      case "Completed":
-        return "default";
-      default:
-        return "outline";
-    }
-  };
-
-  // Calculate summary data for DailySummaryCard
-  const totalRevenue = orders.reduce((sum, order) => sum + order.price, 0);
-  const totalWeight = orders.reduce((sum, order) => sum + order.weight, 0);
-  const totalPcs = orders.filter(order => order.service === "Cuci Satuan").length;
-  const totalMeters = 0;
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col bg-yellow-50">
-      {/* Background accents layer */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <WashingMachine className="absolute top-10 left-1/4 h-24 w-24 text-yellow-400 opacity-40 rotate-12" />
-        <WashingMachine className="absolute bottom-20 right-1/3 h-32 w-32 text-yellow-400 opacity-30 -rotate-45" />
-        <WashingMachine className="absolute top-1/2 left-10 h-16 w-16 text-yellow-400 opacity-35 rotate-6" />
-        <WashingMachine className="absolute bottom-5 left-1/2 h-20 w-20 text-yellow-400 opacity-25 rotate-90" />
-        <WashingMachine className="absolute top-1/3 right-20 h-28 w-28 text-yellow-400 opacity-45 -rotate-24" />
-        <WashingMachine className="absolute top-3/4 left-1/4 h-20 w-20 text-yellow-400 opacity-30 rotate-30" />
-        <WashingMachine className="absolute top-1/4 right-1/4 h-16 w-16 text-yellow-400 opacity-35 -rotate-15" />
-      </div>
-
-      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 relative z-10">
-        {/* Wrapper untuk membatasi lebar konten */}
-        <div className="max-w-4xl mx-auto w-full">
-          <header className="sticky top-0 z-30 flex h-14 items-center justify-center border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-            <h1 className="text-7xl font-bold flex items-center gap-2">
-              <WashingMachine className="h-16 w-16 text-yellow-500" />
-              BetterLaundry
-            </h1>
-          </header>
-
-          <div className="px-4 sm:px-6 py-4 space-y-4">
-            <AccountInfoCard />
-            <BranchSelector />
-            <PromoCard />
-            <DailySummaryCard
-              totalRevenue={totalRevenue}
-              totalOrders={orders.length}
-              totalWeight={totalWeight}
-              totalPcs={totalPcs}
-              totalMeters={totalMeters}
-            />
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <ActionButtonsGrid onAddOrderClick={() => setIsDialogOpen(true)} />
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Buat Pesanan Baru</DialogTitle>
-                  <DialogDescription>
-                    Isi detail pesanan laundry baru di sini.
-                  </DialogDescription>
-                </DialogHeader>
-                <CreateOrderForm
-                  onOrderCreated={handleOrderCreated}
-                  onClose={() => setIsDialogOpen(false)}
-                />
-              </DialogContent>
-            </Dialog>
-            <HelpCard />
+    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+      <div className="hidden border-r bg-muted/40 md:block">
+        <div className="flex h-full max-h-screen flex-col gap-2">
+          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+            <Link to="/" className="flex items-center gap-2 font-semibold">
+              <Package2 className="h-6 w-6" />
+              <span className="">Laundree</span>
+            </Link>
+            <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
+              <Bell className="h-4 w-4" />
+              <span className="sr-only">Toggle notifications</span>
+            </Button>
+          </div>
+          <div className="flex-1">
+            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+              <Link
+                to="#"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <Home className="h-4 w-4" />
+                Dashboard
+              </Link>
+              <Link
+                to="#"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <ShoppingCart className="h-4 w-4" />
+                Orders
+                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                  6
+                </Badge>
+              </Link>
+              <Link
+                to="#"
+                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+              >
+                <Package className="h-4 w-4" />
+                Products{" "}
+              </Link>
+              <Link
+                to="#"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <Users className="h-4 w-4" />
+                Customers
+              </Link>
+              <Link
+                to="#"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <LineChart className="h-4 w-4" />
+                Analytics
+              </Link>
+            </nav>
+          </div>
+          <div className="mt-auto p-4">
+            <Card>
+              <CardHeader className="p-2 pt-0 md:p-4">
+                <CardTitle>Upgrade to Pro</CardTitle>
+                <CardDescription>
+                  Unlock all features and get unlimited access to our support
+                  team.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
+                <Button size="sm" className="w-full">
+                  Upgrade
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
+      </div>
+      <div className="flex flex-col">
+        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="shrink-0 md:hidden"
+              >
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="flex flex-col">
+              <nav className="grid gap-2 text-lg font-medium">
+                <Link
+                  to="#"
+                  className="flex items-center gap-2 text-lg font-semibold"
+                >
+                  <Package2 className="h-6 w-6" />
+                  <span className="sr-only">Acme Inc</span>
+                </Link>
+                <Link
+                  to="#"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                >
+                  <Home className="h-5 w-5" />
+                  Dashboard
+                </Link>
+                <Link
+                  to="#"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                  Orders
+                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                    6
+                  </Badge>
+                </Link>
+                <Link
+                  to="#"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+                >
+                  <Package className="h-5 w-5" />
+                  Products
+                </Link>
+                <Link
+                  to="#"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                >
+                  <Users className="h-5 w-5" />
+                  Customers
+                </Link>
+                <Link
+                  to="#"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                >
+                  <LineChart className="h-5 w-5" />
+                  Analytics
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
+          <div className="w-full flex-1">
+            <form>
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="search"
+                  placeholder="Search products..."
+                  className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+                />
+              </div>
+            </form>
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="icon" className="rounded-full">
+                <CircleUser className="h-5 w-5" />
+                <span className="sr-only">Toggle user menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </header>
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+          <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 relative z-10">
+            {/* Wrapper untuk membatasi lebar konten */}
+            <div className="max-w-4xl mx-auto w-full">
+              <header className="sticky top-0 z-30 flex h-14 items-center justify-center border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+                {/* Header content */}
+              </header>
+              <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
+                <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
+                  <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+                    <AccountInfoCard />
+                    <BranchSelector />
+                    <div className="lg:col-span-2 xl:col-span-2">
+                      <PromoCarousel /> {/* Menggunakan PromoCarousel */}
+                    </div>
+                    <DailySummaryCard
+                      totalRevenue={1250000}
+                      totalOrders={15}
+                      totalWeight={75}
+                      totalPcs={120}
+                      totalMeters={0}
+                    />
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+                    <div className="lg:col-span-2 xl:col-span-4">
+                      <ActionButtonsGrid onAddOrderClick={handleAddOrderClick} />
+                    </div>
+                  </div>
+                </div>
+                <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-1">
+                  <HelpCard />
+                </div>
+              </main>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   );
 };
+
 export default LaundryDashboard;
