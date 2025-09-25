@@ -155,8 +155,8 @@ const LaundryDashboard = () => {
         {/* Wrapper untuk membatasi lebar konten */}
         <div className="max-w-4xl mx-auto w-full">
           <header className="sticky top-0 z-30 flex h-14 items-center justify-center border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-            <h1 className="text-3xl font-bold flex items-center gap-2">
-              <WashingMachine className="h-6 w-6 text-yellow-500" />
+            <h1 className="text-7xl font-bold flex items-center gap-2">
+              <WashingMachine className="h-16 w-16 text-yellow-500" />
               binatu
             </h1>
             {/* Tombol navigasi lama dihapus dari sini */}
