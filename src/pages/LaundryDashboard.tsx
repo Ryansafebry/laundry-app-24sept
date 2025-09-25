@@ -21,6 +21,7 @@ import {
   Settings,
   History,
   PlusCircle,
+  ArrowRight, // Import ArrowRight
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
