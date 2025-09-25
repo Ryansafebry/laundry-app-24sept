@@ -1,320 +1,245 @@
 "use client";
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Bell,
-  CircleUser,
-  Home,
-  LineChart,
-  Menu,
-  Package,
-  Package2,
-  Search,
-  ShoppingCart,
-  Users,
-  WashingMachine,
-} from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
   Card,
-  CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+  CardContent,
+  CardDescription,
+}
+from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+}
+from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { PlusCircle, History, Settings, WashingMachine } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+}
+from "@/components/ui/dialog";
+import CreateOrderForm from "@/components/CreateOrderForm";
 import PromoCard from "@/components/PromoCard"; // Import PromoCard
 
-export function LaundryDashboard() {
-  const [activeLink, setActiveLink] = useState("dashboard");
+// Definisi tipe untuk pesanan
+type Order = {
+  id: string;
+  customer: string;
+  service: string;
+  status: "Pending" | "In Progress" | "Completed";
+  weight: number;
+  price: number;
+  date: string;
+  paymentMethod: "QRIS" | "Debit" | "Tunai";
+  orderType: "Pickup" | "Delivery";
+  location?: string; // Menambahkan location sebagai opsional
+};
+
+// Contoh data pesanan awal
+const initialOrders: Order[] = [
+  {
+    id: "ORD001",
+    customer: "Budi Santoso",
+    service: "Cuci Kering",
+    status: "Pending",
+    weight: 3,
+    price: 15000,
+    date: "2023-10-26",
+    paymentMethod: "QRIS",
+    orderType: "Pickup",
+    location: "Jl. Merdeka No. 10", // Contoh lokasi
+  },
+  {
+    id: "ORD002",
+    customer: "Siti Aminah",
+    service: "Cuci Setrika",
+    status: "In Progress",
+    weight: 5,
+    price: 30000,
+    date: "2023-10-25",
+    paymentMethod: "Debit",
+    orderType: "Delivery",
+    location: undefined, // Tidak ada lokasi untuk Delivery
+  },
+  {
+    id: "ORD003",
+    customer: "Joko Susilo",
+    service: "Setrika Saja",
+    status: "Pending",
+    weight: 2,
+    price: 10000,
+    date: "2023-10-26",
+    paymentMethod: "Tunai",
+    orderType: "Pickup",
+    location: "Perumahan Indah Blok C-5", // Contoh lokasi
+  },
+  {
+    id: "ORD004",
+    customer: "Dewi Lestari",
+    service: "Cuci Kering",
+    status: "Completed",
+    weight: 4,
+    price: 20000,
+    date: "2023-10-27",
+    paymentMethod: "QRIS",
+    orderType: "Delivery",
+    location: undefined, // Tidak ada lokasi untuk Delivery
+  },
+];
+
+const LaundryDashboard = () => {
+  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleOrderCreated = (newOrder: Order) => {
+    setOrders((prevOrders) => [...prevOrders, newOrder]);
+  };
+
+  const getStatusVariant = (status: string) => {
+    switch (status) {
+      case "Pending":
+        return "destructive";
+      case "In Progress":
+        return "secondary";
+      case "Completed":
+        return "default";
+      default:
+        return "outline";
+    }
+  };
 
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-muted/40 md:block">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-            <Link to="/" className="flex items-center gap-2 font-semibold">
+    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+        {/* Wrapper baru untuk membatasi lebar konten */}
+        <div className="max-w-4xl mx-auto w-full">
+          <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+            <h1 className="text-2xl font-semibold flex items-center gap-2">
               <WashingMachine className="h-6 w-6 text-yellow-500" />
-              <span className="">BetterLaundry</span>
-            </Link>
-            <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-              <Bell className="h-4 w-4" />
-              <span className="sr-only">Toggle notifications</span>
-            </Button>
+              BetterLaundry
+            </h1>
+            <div className="ml-auto flex items-center gap-2">
+              <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
+                <Link to="/history">
+                  <History className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Riwayat
+                  </span>
+                </Link>
+              </Button>
+              <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
+                <Link to="/admin">
+                  <Settings className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Admin
+                  </span>
+                </Link>
+              </Button>
+            </div>
+          </header>
+          <div className="px-4 sm:px-6 py-4 rounded-lg shadow-lg mb-4"> {/* Menghapus border-2 border-red-500 */}
+            <PromoCard /> {/* Menambahkan PromoCard di sini */}
           </div>
-          <div className="flex-1">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
-                to="#"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
-                  activeLink === "dashboard" ? "bg-muted text-primary" : ""
-                }`}
-                onClick={() => setActiveLink("dashboard")}
-              >
-                <Home className="h-4 w-4" />
-                Dashboard
-              </Link>
-              <Link
-                to="#"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
-                  activeLink === "orders" ? "bg-muted text-primary" : ""
-                }`}
-                onClick={() => setActiveLink("orders")}
-              >
-                <ShoppingCart className="h-4 w-4" />
-                Orders
-                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  6
-                </Badge>
-              </Link>
-              <Link
-                to="#"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
-                  activeLink === "products" ? "bg-muted text-primary" : ""
-                }`}
-                onClick={() => setActiveLink("products")}
-              >
-                <Package className="h-4 w-4" />
-                Products
-              </Link>
-              <Link
-                to="#"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
-                  activeLink === "customers" ? "bg-muted text-primary" : ""
-                }`}
-                onClick={() => setActiveLink("customers")}
-              >
-                <Users className="h-4 w-4" />
-                Customers
-              </Link>
-              <Link
-                to="#"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
-                  activeLink === "analytics" ? "bg-muted text-primary" : ""
-                }`}
-                onClick={() => setActiveLink("analytics")}
-              >
-                <LineChart className="h-4 w-4" />
-                Analytics
-              </Link>
-            </nav>
-          </div>
-          <div className="mt-auto p-4">
-            <Card>
-              <CardHeader className="p-2 pt-0 md:p-4">
-                <CardTitle>Upgrade to Pro</CardTitle>
-                <CardDescription>
-                  Unlock all features and get unlimited access to our support
-                  team.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                <Button size="sm" className="w-full">
-                  Upgrade
+          {/* Tombol "Tambah Pesanan" yang dipindahkan dan diperbesar */}
+          <div className="px-4 sm:px-6 py-4">
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button size="lg" className="w-full bg-yellow-400 hover:bg-yellow-500 text-black gap-2">
+                  <PlusCircle className="h-5 w-5" />
+                  <span>Tambah Pesanan Baru</span>
                 </Button>
-              </CardContent>
-            </Card>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Buat Pesanan Baru</DialogTitle>
+                  <DialogDescription>
+                    Isi detail pesanan laundry baru di sini.
+                  </DialogDescription>
+                </DialogHeader>
+                <CreateOrderForm
+                  onOrderCreated={handleOrderCreated}
+                  onClose={() => setIsDialogOpen(false)}
+                />
+              </DialogContent>
+            </Dialog>
           </div>
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button size="icon" variant="outline" className="sm:hidden">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="sm:max-w-xs">
-              <nav className="grid gap-6 text-lg font-medium">
-                <Link
-                  to="#"
-                  className="flex items-center gap-2 text-lg font-semibold"
-                >
-                  <Package2 className="h-6 w-6" />
-                  <span className="sr-only">Acme Inc</span>
-                </Link>
-                <Link
-                  to="#"
-                  className="flex items-center gap-4 px-2 text-muted-foreground"
-                >
-                  <Home className="h-5 w-5" />
-                  Dashboard
-                </Link>
-                <Link
-                  to="#"
-                  className="flex items-center gap-4 px-2 text-muted-foreground"
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  Orders
-                </Link>
-                <Link
-                  to="#"
-                  className="flex items-center gap-4 px-2 text-muted-foreground"
-                >
-                  <Package className="h-5 w-5" />
-                  Products
-                </Link>
-                <Link
-                  to="#"
-                  className="flex items-center gap-4 px-2 text-muted-foreground"
-                >
-                  <Users className="h-5 w-5" />
-                  Customers
-                </Link>
-                <Link
-                  to="#"
-                  className="flex items-center gap-4 px-2 text-muted-foreground"
-                >
-                  <LineChart className="h-5 w-5" />
-                  Analytics
-                </Link>
-              </nav>
-            </SheetContent>
-          </Sheet>
-          <h1 className="text-3xl font-semibold flex items-center gap-2"> {/* Mengubah text-2xl menjadi text-3xl */}
-            <WashingMachine className="h-6 w-6 text-yellow-500" />
-            BetterLaundry
-          </h1>
-          <div className="relative ml-auto flex-1 md:grow-0">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search..."
-              className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
-            />
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="secondary"
-                size="icon"
-                className="rounded-full"
-              >
-                <CircleUser className="h-5 w-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </header>
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
-          <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-              <Card className="sm:col-span-2">
-                <CardHeader className="pb-3">
-                  <CardTitle>Your Orders</CardTitle>
-                  <CardDescription className="max-w-lg text-balance leading-relaxed">
-                    Introducing our new dashboard for a better laundry
-                    experience.
+          <main className="flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+            <div className="grid auto-rows-max items-start gap-4 md:gap-8">
+              <Card>
+                <CardHeader className="px-7">
+                  <CardTitle>Pesanan</CardTitle>
+                  <CardDescription>
+                    Pesanan laundry terbaru Anda.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button>Create New Order</Button>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardDescription>This Week</CardDescription>
-                  <CardTitle className="text-4xl">$1,329</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-xs text-muted-foreground">
-                    +25% from last week
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardDescription>This Month</CardDescription>
-                  <CardTitle className="text-4xl">$5,329</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-xs text-muted-foreground">
-                    +10% from last month
-                  </div>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>ID Pesanan</TableHead>
+                        <TableHead>Pelanggan</TableHead>
+                        <TableHead>Layanan</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Pembayaran</TableHead>
+                        <TableHead>Jenis Pesanan</TableHead>
+                        <TableHead>Lokasi</TableHead>
+                        <TableHead className="text-right">Berat (kg)</TableHead>
+                        <TableHead className="text-right">Harga</TableHead>
+                        <TableHead className="text-right">Tanggal</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {orders.map((order) => (
+                        <TableRow key={order.id}>
+                          <TableCell className="font-medium">
+                            {order.id}
+                          </TableCell>
+                          <TableCell>{order.customer}</TableCell>
+                          <TableCell>{order.service}</TableCell>
+                          <TableCell>
+                            <Badge variant={getStatusVariant(order.status)}>
+                              {order.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>{order.paymentMethod}</TableCell>
+                          <TableCell>{order.orderType}</TableCell>
+                          <TableCell>
+                            {order.orderType === "Pickup" && order.location
+                              ? "Tersamar"
+                              : order.location || "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {order.weight}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            Rp{order.price.toLocaleString("id-ID")}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {order.date}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </CardContent>
               </Card>
             </div>
-            <PromoCard /> {/* Menampilkan PromoCard di sini */}
-          </div>
-          <div className="hidden items-start gap-4 md:gap-8 lg:block">
-            <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
-              <CardHeader className="flex flex-row items-start bg-muted/50">
-                <div className="grid gap-0.5">
-                  <CardTitle className="group flex items-center gap-2 text-lg">
-                    Order Oe31b70H
-                  </CardTitle>
-                  <CardDescription>Date: November 23, 2023</CardDescription>
-                </div>
-                <div className="ml-auto flex items-center gap-1">
-                  <Button variant="outline" size="sm" className="h-8 gap-1">
-                    <LineChart className="h-3.5 w-3.5" />
-                    <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                      Analytics
-                    </span>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="p-6 text-sm">
-                <div className="grid gap-3">
-                  <div className="font-semibold">Order Details</div>
-                  <ul className="grid gap-3">
-                    <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">
-                        Gildan Heavy Cotton T-Shirt x <span>2</span>
-                      </span>
-                      <span>$250.00</span>
-                    </li>
-                    <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">
-                        Webhooks for BigCommerce
-                      </span>
-                      <span>$200.00</span>
-                    </li>
-                  </ul>
-                  <div className="flex items-center justify-between border-t border-dashed pt-3 font-semibold">
-                    <span className="text-muted-foreground">Total</span>
-                    <span>$450.00</span>
-                  </div>
-                </div>
-                <div className="grid gap-3">
-                  <div className="font-semibold">Shipping Information</div>
-                  <address className="grid gap-0.5 not-italic text-muted-foreground">
-                    <span>Veronica Lodge</span>
-                    <span>123 Main St.</span>
-                    <span>Anytown, CA 12345</span>
-                  </address>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Customer</span>
-                    <span>Veronica Lodge</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
     </div>
   );
-}
+};
+export default LaundryDashboard;
