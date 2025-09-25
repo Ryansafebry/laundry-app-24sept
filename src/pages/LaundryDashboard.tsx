@@ -37,6 +37,7 @@ import BranchSelector from "@/components/dashboard/BranchSelector";
 import DailySummaryCard from "@/components/dashboard/DailySummaryCard";
 import ActionButtonsGrid from "@/components/dashboard/ActionButtonsGrid";
 import HelpCard from "@/components/dashboard/HelpCard";
+import PromoCard from "@/components/PromoCard"; // Import PromoCard
 
 // Definisi tipe untuk pesanan
 type Order = {
@@ -165,6 +166,7 @@ const LaundryDashboard = () => {
           <div className="px-4 sm:px-6 py-4 space-y-4">
             <AccountInfoCard />
             <BranchSelector />
+            <PromoCard /> {/* Menambahkan PromoCard di sini */}
             <DailySummaryCard
               totalRevenue={totalRevenue}
               totalOrders={orders.length}
