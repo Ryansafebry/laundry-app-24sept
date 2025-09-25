@@ -34,12 +34,7 @@ const PromoCard: React.FC = () => {
             Untuk semua layanan Cuci Setrika di bulan ini!
           </CardDescription>
         </div>
-        {/* Gambar orang mempersembahkan diskon dengan meriah */}
-        <img
-          src="https://images.unsplash.com/photo-1560523160-ff43e783d227?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // Gambar baru: orang mempersembahkan diskon
-          alt="Orang mempersembahkan diskon dengan meriah"
-          className="h-20 w-20 object-cover rounded-full ml-4 border-2 border-red-500" // Styling untuk gambar
-        />
+        {/* Gambar orang mempersembahkan diskon dengan meriah telah dihapus */}
       </CardContent>
     </Card>
   );
