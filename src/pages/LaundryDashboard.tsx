@@ -185,7 +185,7 @@ export function LaundryDashboard() {
               </nav>
             </SheetContent>
           </Sheet>
-          <h1 className="text-3xl font-semibold flex items-center gap-2"> {/* Mengubah text-2xl menjadi text-3xl */}
+          <h1 className="text-2xl font-semibold flex items-center gap-2"> {/* Mengembalikan text-3xl menjadi text-2xl */}
             <WashingMachine className="h-6 w-6 text-yellow-500" />
             BetterLaundry
           </h1>
