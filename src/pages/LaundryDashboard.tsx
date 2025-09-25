@@ -154,13 +154,13 @@ const LaundryDashboard = () => {
     <div className="relative min-h-screen w-full flex flex-col bg-yellow-50">
       {/* Background accents layer */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <WashingMachine className="absolute top-10 left-1/4 h-24 w-24 text-yellow-200 opacity-30 rotate-12" />
-        <WashingMachine className="absolute bottom-20 right-1/3 h-32 w-32 text-yellow-200 opacity-20 -rotate-45" />
-        <WashingMachine className="absolute top-1/2 left-10 h-16 w-16 text-yellow-200 opacity-25 rotate-6" />
-        <WashingMachine className="absolute bottom-5 left-1/2 h-20 w-20 text-yellow-200 opacity-15 rotate-90" />
-        <WashingMachine className="absolute top-1/3 right-20 h-28 w-28 text-yellow-200 opacity-35 -rotate-24" />
-        <WashingMachine className="absolute top-3/4 left-1/4 h-20 w-20 text-yellow-200 opacity-20 rotate-30" />
-        <WashingMachine className="absolute top-1/4 right-1/4 h-16 w-16 text-yellow-200 opacity-25 -rotate-15" />
+        <WashingMachine className="absolute top-10 left-1/4 h-24 w-24 text-yellow-400 opacity-40 rotate-12" />
+        <WashingMachine className="absolute bottom-20 right-1/3 h-32 w-32 text-yellow-400 opacity-30 -rotate-45" />
+        <WashingMachine className="absolute top-1/2 left-10 h-16 w-16 text-yellow-400 opacity-35 rotate-6" />
+        <WashingMachine className="absolute bottom-5 left-1/2 h-20 w-20 text-yellow-400 opacity-25 rotate-90" />
+        <WashingMachine className="absolute top-1/3 right-20 h-28 w-28 text-yellow-400 opacity-45 -rotate-24" />
+        <WashingMachine className="absolute top-3/4 left-1/4 h-20 w-20 text-yellow-400 opacity-30 rotate-30" />
+        <WashingMachine className="absolute top-1/4 right-1/4 h-16 w-16 text-yellow-400 opacity-35 -rotate-15" />
       </div>
 
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 relative z-10">
