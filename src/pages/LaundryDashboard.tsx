@@ -39,7 +39,8 @@ type Order = {
   price: number;
   date: string;
   paymentMethod: string;
-  orderType: "Pickup" | "Delivery"; // Menambahkan orderType
+  orderType: "Pickup" | "Delivery";
+  location?: string; // Menambahkan location sebagai opsional
 };
 
 // Contoh data pesanan awal
@@ -53,7 +54,8 @@ const initialOrders: Order[] = [
     price: 15000,
     date: "2023-10-26",
     paymentMethod: "QRIS",
-    orderType: "Pickup", // Menambahkan orderType
+    orderType: "Pickup",
+    location: "Jl. Merdeka No. 10", // Contoh lokasi
   },
   {
     id: "ORD002",
@@ -64,7 +66,8 @@ const initialOrders: Order[] = [
     price: 30000,
     date: "2023-10-25",
     paymentMethod: "Debit",
-    orderType: "Delivery", // Menambahkan orderType
+    orderType: "Delivery",
+    location: undefined, // Tidak ada lokasi untuk Delivery
   },
   {
     id: "ORD003",
@@ -75,7 +78,8 @@ const initialOrders: Order[] = [
     price: 10000,
     date: "2023-10-26",
     paymentMethod: "Tunai",
-    orderType: "Pickup", // Menambahkan orderType
+    orderType: "Pickup",
+    location: "Perumahan Indah Blok C-5", // Contoh lokasi
   },
   {
     id: "ORD004",
@@ -86,7 +90,8 @@ const initialOrders: Order[] = [
     price: 20000,
     date: "2023-10-27",
     paymentMethod: "QRIS",
-    orderType: "Delivery", // Menambahkan orderType
+    orderType: "Delivery",
+    location: undefined, // Tidak ada lokasi untuk Delivery
   },
 ];
 
@@ -240,7 +245,8 @@ const LaundryDashboard = () => {
                       <TableHead>Layanan</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Pembayaran</TableHead>
-                      <TableHead>Jenis Pesanan</TableHead> {/* Kolom baru */}
+                      <TableHead>Jenis Pesanan</TableHead>
+                      <TableHead>Lokasi</TableHead> {/* Kolom baru untuk lokasi */}
                       <TableHead className="text-right">Berat (kg)</TableHead>
                       <TableHead className="text-right">Harga</TableHead>
                       <TableHead className="text-right">Tanggal</TableHead>
@@ -260,7 +266,8 @@ const LaundryDashboard = () => {
                           </Badge>
                         </TableCell>
                         <TableCell>{order.paymentMethod}</TableCell>
-                        <TableCell>{order.orderType}</TableCell> {/* Menampilkan jenis pesanan */}
+                        <TableCell>{order.orderType}</TableCell>
+                        <TableCell>{order.location || "-"}</TableCell> {/* Menampilkan lokasi atau '-' */}
                         <TableCell className="text-right">
                           {order.weight}
                         </TableCell>

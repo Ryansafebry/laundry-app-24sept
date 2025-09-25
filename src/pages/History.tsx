@@ -28,7 +28,8 @@ type Order = {
   price: number;
   date: string;
   paymentMethod: string;
-  orderType: "Pickup" | "Delivery"; // Menambahkan orderType
+  orderType: "Pickup" | "Delivery";
+  location?: string; // Menambahkan location sebagai opsional
 };
 
 // Contoh data riwayat pesanan
@@ -42,7 +43,8 @@ const historicalOrders: Order[] = [
     price: 35000,
     date: "2023-10-24",
     paymentMethod: "Tunai",
-    orderType: "Delivery", // Menambahkan orderType
+    orderType: "Delivery",
+    location: undefined,
   },
   {
     id: "ORD006",
@@ -53,7 +55,8 @@ const historicalOrders: Order[] = [
     price: 12500,
     date: "2023-10-23",
     paymentMethod: "QRIS",
-    orderType: "Pickup", // Menambahkan orderType
+    orderType: "Pickup",
+    location: "Apartemen Sejahtera Blok B",
   },
   {
     id: "ORD007",
@@ -64,7 +67,8 @@ const historicalOrders: Order[] = [
     price: 15000,
     date: "2023-10-22",
     paymentMethod: "Debit",
-    orderType: "Pickup", // Menambahkan orderType
+    orderType: "Pickup",
+    location: "Kantor Pusat",
   },
   {
     id: "ORD008",
@@ -75,7 +79,8 @@ const historicalOrders: Order[] = [
     price: 25000,
     date: "2023-10-21",
     paymentMethod: "Tunai",
-    orderType: "Delivery", // Menambahkan orderType
+    orderType: "Delivery",
+    location: undefined,
   },
 ];
 
@@ -116,7 +121,8 @@ const History = () => {
                     <TableHead>Layanan</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Pembayaran</TableHead>
-                    <TableHead>Jenis Pesanan</TableHead> {/* Kolom baru */}
+                    <TableHead>Jenis Pesanan</TableHead>
+                    <TableHead>Lokasi</TableHead> {/* Kolom baru untuk lokasi */}
                     <TableHead className="text-right">Berat (kg)</TableHead>
                     <TableHead className="text-right">Harga</TableHead>
                     <TableHead className="text-right">Tanggal</TableHead>
@@ -134,7 +140,8 @@ const History = () => {
                         </Badge>
                       </TableCell>
                       <TableCell>{order.paymentMethod}</TableCell>
-                      <TableCell>{order.orderType}</TableCell> {/* Menampilkan jenis pesanan */}
+                      <TableCell>{order.orderType}</TableCell>
+                      <TableCell>{order.location || "-"}</TableCell> {/* Menampilkan lokasi atau '-' */}
                       <TableCell className="text-right">
                         {order.weight}
                       </TableCell>

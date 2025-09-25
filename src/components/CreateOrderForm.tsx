@@ -36,9 +36,19 @@ const formSchema = z.object({
   price: z.coerce.number().min(1000, {
     message: "Harga harus minimal Rp 1.000.",
   }),
-  orderType: z.enum(["Pickup", "Delivery"], { // Bidang baru untuk jenis pesanan
+  orderType: z.enum(["Pickup", "Delivery"], {
     required_error: "Pilih jenis pesanan.",
   }),
+  location: z.string().optional(), // Lokasi awalnya opsional
+}).superRefine((data, ctx) => {
+  // Validasi kondisional: jika orderType adalah "Pickup", maka lokasi wajib diisi
+  if (data.orderType === "Pickup" && (!data.location || data.location.trim() === "")) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Lokasi penjemputan wajib diisi untuk pesanan Pickup.",
+      path: ["location"],
+    });
+  }
 });
 
 type CreateOrderFormProps = {
@@ -50,7 +60,8 @@ type CreateOrderFormProps = {
     weight: number;
     price: number;
     date: string;
-    orderType: "Pickup" | "Delivery"; // Menambahkan orderType
+    orderType: "Pickup" | "Delivery";
+    location?: string; // Menambahkan location sebagai opsional
   }) => void;
   onClose: () => void;
 };
@@ -66,9 +77,12 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
       serviceType: "Cuci Kering",
       weight: 0,
       price: 0,
-      orderType: "Pickup", // Default value for new field
+      orderType: "Pickup",
+      location: "", // Default value for new field
     },
   });
+
+  const orderType = form.watch("orderType"); // Memantau perubahan pada orderType
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const newOrder = {
@@ -81,7 +95,8 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
       weight: values.weight,
       price: values.price,
       date: new Date().toISOString().split("T")[0],
-      orderType: values.orderType, // Menyertakan orderType
+      orderType: values.orderType,
+      location: values.orderType === "Pickup" ? values.location : undefined, // Hanya sertakan lokasi jika Pickup
     };
     onOrderCreated(newOrder);
     toast.success("Pesanan baru berhasil ditambahkan!");
@@ -173,6 +188,21 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
             </FormItem>
           )}
         />
+        {orderType === "Pickup" && (
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Lokasi Penjemputan</FormLabel>
+                <FormControl>
+                  <Input placeholder="Masukkan lokasi penjemputan" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <Button type="submit" className="w-full">
           Tambah Pesanan
         </Button>
