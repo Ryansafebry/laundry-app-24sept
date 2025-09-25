@@ -2,7 +2,7 @@
 import React from "react";
 import AccountInfoCard from "@/components/dashboard/AccountInfoCard";
 import BranchSelector from "@/components/dashboard/BranchSelector";
-import PromoCard from "@/components/PromoCard";
+// import PromoCard from "@/components/PromoCard"; // Menghapus import PromoCard
 import ActionButtonsGrid from "@/components/dashboard/ActionButtonsGrid";
 import SalesOverviewCard from "@/components/dashboard/SalesOverviewCard";
 import RecentOrdersCard from "@/components/dashboard/RecentOrdersCard";
@@ -21,8 +21,8 @@ const IndexPage = () => {
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <AccountInfoCard />
-        <PromoCard /> {/* Posisi PromoCard dipindahkan ke sini */}
-        <BranchSelector /> {/* Posisi BranchSelector dipindahkan ke sini */}
+        {/* <PromoCard /> */} {/* Menghapus PromoCard dari JSX */}
+        <BranchSelector />
         <SalesOverviewCard />
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
