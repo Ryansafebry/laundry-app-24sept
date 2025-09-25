@@ -18,10 +18,11 @@ import {
   Home,
   Settings,
   PlusCircle,
+  ArrowRight, // Menambahkan ArrowRight di sini
 } from "lucide-react";
 import OrderTable from "@/components/OrderTable";
 import { toast } from "sonner";
-import WalletCard from "@/components/dashboard/WalletCard"; // Mengimpor WalletCard yang baru
+import WalletCard from "@/components/dashboard/WalletCard";
 
 // Definisi tipe untuk pesanan (konsisten dengan OrderTable)
 type Order = {
@@ -252,7 +253,7 @@ const LaundryDashboard = () => {
                 </p>
               </CardContent>
             </Card>
-            <WalletCard /> {/* Menggunakan WalletCard yang baru */}
+            <WalletCard />
           </div>
           <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
             <Card className="xl:col-span-2">
