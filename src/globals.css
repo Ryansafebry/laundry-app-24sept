@@ -106,5 +106,5 @@
 }
 
 .animate-blink {
-  animation: blink 1.5s infinite;
+  animation: blink 1s infinite; /* Mengubah durasi menjadi 1s */
 }
