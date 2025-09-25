@@ -7,7 +7,8 @@ import {
   CardTitle,
   CardContent,
   CardDescription,
-} from "@/components/ui/card";
+}
+from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -16,7 +17,8 @@ import {
   TableHead,
   TableBody,
   TableCell,
-} from "@/components/ui/table";
+}
+from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { PlusCircle, History, Settings, WashingMachine } from "lucide-react";
 import {
@@ -26,7 +28,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+}
+from "@/components/ui/dialog";
 import CreateOrderForm from "@/components/CreateOrderForm";
 import PromoCard from "@/components/PromoCard"; // Import PromoCard
 
@@ -146,7 +149,7 @@ const LaundryDashboard = () => {
               </Button>
             </div>
           </header>
-          <div className="px-4 sm:px-6 py-4">
+          <div className="px-4 sm:px-6 py-4 border-2 border-blue-300 rounded-lg shadow-lg mb-4"> {/* Menambahkan border, rounded, shadow, dan margin-bottom */}
             <PromoCard /> {/* Menambahkan PromoCard di sini */}
           </div>
           {/* Tombol "Tambah Pesanan" yang dipindahkan dan diperbesar */}
