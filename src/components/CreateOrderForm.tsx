@@ -36,24 +36,18 @@ const formSchema = z.object({
   price: z.coerce.number().min(1000, {
     message: "Harga harus minimal Rp 1.000.",
   }),
-  paymentMethod: z.enum(["QRIS", "Debit", "Tunai"], {
-    required_error: "Pilih metode pembayaran.",
-  }),
 });
 
-type Order = {
-  id: string;
-  customer: string;
-  service: string;
-  status: "Pending" | "In Progress" | "Completed";
-  weight: number;
-  price: number;
-  date: string;
-  paymentMethod: string;
-};
-
 type CreateOrderFormProps = {
-  onOrderCreated: (newOrder: Order) => void;
+  onOrderCreated: (newOrder: {
+    id: string;
+    customer: string;
+    service: string;
+    status: string;
+    weight: number;
+    price: number;
+    date: string;
+  }) => void;
   onClose: () => void;
 };
 
@@ -68,12 +62,11 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
       serviceType: "Cuci Kering", // Default value
       weight: 0,
       price: 0,
-      paymentMethod: "Tunai", // Default value
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const newOrder: Order = {
+    const newOrder = {
       id: `ORD${Math.floor(Math.random() * 10000)
         .toString()
         .padStart(3, "0")}`, // Simple ID generation
@@ -83,7 +76,6 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
       weight: values.weight,
       price: values.price,
       date: new Date().toISOString().split("T")[0], // Current date
-      paymentMethod: values.paymentMethod,
     };
     onOrderCreated(newOrder);
     toast.success("Pesanan baru berhasil ditambahkan!");
@@ -150,28 +142,6 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
               <FormControl>
                 <Input type="number" placeholder="0" {...field} />
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="paymentMethod"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Metode Pembayaran</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih metode pembayaran" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="QRIS">QRIS</SelectItem>
-                  <SelectItem value="Debit">Debit</SelectItem>
-                  <SelectItem value="Tunai">Tunai</SelectItem>
-                </SelectContent>
-              </Select>
               <FormMessage />
             </FormItem>
           )}
