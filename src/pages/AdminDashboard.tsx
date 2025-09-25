@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Import Link
 import {
   Card,
   CardHeader,
@@ -12,7 +12,7 @@ import {
 import OrderTable from "@/components/OrderTable";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, History, PlusCircle } from "lucide-react";
+import { ChevronLeft, History, PlusCircle, Settings } from "lucide-react"; // Import Settings icon
 
 // Definisi tipe untuk pesanan (konsisten dengan OrderTable)
 type Order = {
@@ -164,6 +164,16 @@ const AdminDashboard = () => {
             <span className="sr-only">Kembali</span>
           </Button>
           <h1 className="text-2xl font-semibold">Dashboard Admin</h1>
+          <div className="ml-auto flex items-center gap-2">
+            <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
+              <Link to="/settings"> {/* Tombol Pengaturan */}
+                <Settings className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Pengaturan
+                </span>
+              </Link>
+            </Button>
+          </div>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-3">

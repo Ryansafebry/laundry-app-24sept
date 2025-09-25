@@ -165,6 +165,14 @@ const LaundryDashboard = () => {
                   </span>
                 </Link>
               </Button>
+              <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
+                <Link to="/settings"> {/* Tombol Pengaturan */}
+                  <Settings className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Pengaturan
+                  </span>
+                </Link>
+              </Button>
             </div>
           </header>
           <div className="px-4 sm:px-6 py-4 rounded-lg shadow-lg mb-4">
