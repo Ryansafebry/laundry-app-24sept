@@ -32,7 +32,8 @@ type Order = {
   date: string;
   paymentMethod: string;
   orderType: "Pickup" | "Delivery";
-  location?: string; // Menambahkan location sebagai opsional
+  location?: string;
+  clothingType?: string; // Menambahkan clothingType
 };
 
 // Contoh data riwayat pesanan
@@ -48,6 +49,7 @@ const historicalOrders: Order[] = [
     paymentMethod: "Tunai",
     orderType: "Delivery",
     location: undefined,
+    clothingType: undefined,
   },
   {
     id: "ORD006",
@@ -60,6 +62,7 @@ const historicalOrders: Order[] = [
     paymentMethod: "QRIS",
     orderType: "Pickup",
     location: "Apartemen Sejahtera Blok B",
+    clothingType: undefined,
   },
   {
     id: "ORD007",
@@ -72,6 +75,7 @@ const historicalOrders: Order[] = [
     paymentMethod: "Debit",
     orderType: "Pickup",
     location: "Kantor Pusat",
+    clothingType: undefined,
   },
   {
     id: "ORD008",
@@ -84,6 +88,20 @@ const historicalOrders: Order[] = [
     paymentMethod: "Tunai",
     orderType: "Delivery",
     location: undefined,
+    clothingType: undefined,
+  },
+  {
+    id: "ORD009",
+    customer: "Eko Prasetyo",
+    service: "Cuci Satuan",
+    status: "Completed",
+    weight: 0.8,
+    price: 30000,
+    date: "2023-10-20",
+    paymentMethod: "QRIS",
+    orderType: "Delivery",
+    location: undefined,
+    clothingType: "Jas Pria",
   },
 ];
 
@@ -132,10 +150,11 @@ const History = () => {
                     <TableHead>ID Pesanan</TableHead>
                     <TableHead>Pelanggan</TableHead>
                     <TableHead>Layanan</TableHead>
+                    <TableHead>Jenis Pakaian</TableHead> {/* Kolom baru */}
                     <TableHead>Status</TableHead>
                     <TableHead>Pembayaran</TableHead>
                     <TableHead>Jenis Pesanan</TableHead>
-                    <TableHead>Lokasi</TableHead> {/* Kolom baru untuk lokasi */}
+                    <TableHead>Lokasi</TableHead>
                     <TableHead className="text-right">Berat (kg)</TableHead>
                     <TableHead className="text-right">Harga</TableHead>
                     <TableHead className="text-right">Tanggal</TableHead>
@@ -147,6 +166,7 @@ const History = () => {
                       <TableCell className="font-medium">{order.id}</TableCell>
                       <TableCell>{order.customer}</TableCell>
                       <TableCell>{order.service}</TableCell>
+                      <TableCell>{order.clothingType || "-"}</TableCell> {/* Menampilkan jenis pakaian */}
                       <TableCell>
                         <Badge variant={getStatusVariant(order.status)}>
                           {order.status}
@@ -154,7 +174,7 @@ const History = () => {
                       </TableCell>
                       <TableCell>{order.paymentMethod}</TableCell>
                       <TableCell>{order.orderType}</TableCell>
-                      <TableCell>{order.location || "-"}</TableCell> {/* Menampilkan lokasi atau '-' */}
+                      <TableCell>{order.location || "-"}</TableCell>
                       <TableCell className="text-right">
                         {order.weight}
                       </TableCell>

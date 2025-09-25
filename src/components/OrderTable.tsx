@@ -30,6 +30,7 @@ type Order = {
   paymentMethod: string;
   orderType: "Pickup" | "Delivery";
   location?: string;
+  clothingType?: string; // Menambahkan clothingType
 };
 
 type OrderTableProps = {
@@ -61,6 +62,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
           <TableHead>ID Pesanan</TableHead>
           <TableHead>Pelanggan</TableHead>
           <TableHead>Layanan</TableHead>
+          <TableHead>Jenis Pakaian</TableHead> {/* Kolom baru */}
           <TableHead>Status</TableHead>
           <TableHead>Pembayaran</TableHead>
           <TableHead>Jenis Pesanan</TableHead>
@@ -77,6 +79,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
             <TableCell className="font-medium">{order.id}</TableCell>
             <TableCell>{order.customer}</TableCell>
             <TableCell>{order.service}</TableCell>
+            <TableCell>{order.clothingType || "-"}</TableCell> {/* Menampilkan jenis pakaian */}
             <TableCell>
               <Badge variant={getStatusVariant(order.status)}>
                 {order.status}

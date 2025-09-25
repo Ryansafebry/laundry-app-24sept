@@ -44,7 +44,8 @@ type Order = {
   date: string;
   paymentMethod: "QRIS" | "Debit" | "Tunai";
   orderType: "Pickup" | "Delivery";
-  location?: string; // Menambahkan location sebagai opsional
+  location?: string;
+  clothingType?: string; // Menambahkan clothingType
 };
 
 // Contoh data pesanan awal
@@ -59,7 +60,8 @@ const initialOrders: Order[] = [
     date: "2023-10-26",
     paymentMethod: "QRIS",
     orderType: "Pickup",
-    location: "Jl. Merdeka No. 10", // Contoh lokasi
+    location: "Jl. Merdeka No. 10",
+    clothingType: undefined,
   },
   {
     id: "ORD002",
@@ -71,7 +73,8 @@ const initialOrders: Order[] = [
     date: "2023-10-25",
     paymentMethod: "Debit",
     orderType: "Delivery",
-    location: undefined, // Tidak ada lokasi untuk Delivery
+    location: undefined,
+    clothingType: undefined,
   },
   {
     id: "ORD003",
@@ -83,7 +86,8 @@ const initialOrders: Order[] = [
     date: "2023-10-26",
     paymentMethod: "Tunai",
     orderType: "Pickup",
-    location: "Perumahan Indah Blok C-5", // Contoh lokasi
+    location: "Perumahan Indah Blok C-5",
+    clothingType: undefined,
   },
   {
     id: "ORD004",
@@ -95,7 +99,21 @@ const initialOrders: Order[] = [
     date: "2023-10-27",
     paymentMethod: "QRIS",
     orderType: "Delivery",
-    location: undefined, // Tidak ada lokasi untuk Delivery
+    location: undefined,
+    clothingType: undefined,
+  },
+  {
+    id: "ORD007",
+    customer: "Fajar Nugraha",
+    service: "Cuci Satuan",
+    status: "Pending",
+    weight: 0.5,
+    price: 25000,
+    date: "2023-10-28",
+    paymentMethod: "Tunai",
+    orderType: "Pickup",
+    location: "Jl. Mawar No. 5",
+    clothingType: "Gaun Pesta",
   },
 ];
 
@@ -149,8 +167,8 @@ const LaundryDashboard = () => {
               </Button>
             </div>
           </header>
-          <div className="px-4 sm:px-6 py-4 rounded-lg shadow-lg mb-4"> {/* Menghapus border-2 border-red-500 */}
-            <PromoCard /> {/* Menambahkan PromoCard di sini */}
+          <div className="px-4 sm:px-6 py-4 rounded-lg shadow-lg mb-4">
+            <PromoCard />
           </div>
           {/* Tombol "Tambah Pesanan" yang dipindahkan dan diperbesar */}
           <div className="px-4 sm:px-6 py-4">
@@ -191,6 +209,7 @@ const LaundryDashboard = () => {
                         <TableHead>ID Pesanan</TableHead>
                         <TableHead>Pelanggan</TableHead>
                         <TableHead>Layanan</TableHead>
+                        <TableHead>Jenis Pakaian</TableHead> {/* Kolom baru */}
                         <TableHead>Status</TableHead>
                         <TableHead>Pembayaran</TableHead>
                         <TableHead>Jenis Pesanan</TableHead>
@@ -208,6 +227,7 @@ const LaundryDashboard = () => {
                           </TableCell>
                           <TableCell>{order.customer}</TableCell>
                           <TableCell>{order.service}</TableCell>
+                          <TableCell>{order.clothingType || "-"}</TableCell> {/* Menampilkan jenis pakaian */}
                           <TableCell>
                             <Badge variant={getStatusVariant(order.status)}>
                               {order.status}

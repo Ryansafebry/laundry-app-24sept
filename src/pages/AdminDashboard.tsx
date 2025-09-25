@@ -12,7 +12,7 @@ import {
 import OrderTable from "@/components/OrderTable";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, History, PlusCircle } from "lucide-react"; // Import History and PlusCircle icons
+import { ChevronLeft, History, PlusCircle } from "lucide-react";
 
 // Definisi tipe untuk pesanan (konsisten dengan OrderTable)
 type Order = {
@@ -26,6 +26,7 @@ type Order = {
   paymentMethod: string;
   orderType: "Pickup" | "Delivery";
   location?: string;
+  clothingType?: string; // Menambahkan clothingType
 };
 
 // Contoh data pesanan awal (sama dengan LaundryDashboard untuk konsistensi)
@@ -41,6 +42,7 @@ const initialOrders: Order[] = [
     paymentMethod: "QRIS",
     orderType: "Pickup",
     location: "Jl. Merdeka No. 10",
+    clothingType: undefined,
   },
   {
     id: "ORD002",
@@ -53,6 +55,7 @@ const initialOrders: Order[] = [
     paymentMethod: "Debit",
     orderType: "Delivery",
     location: undefined,
+    clothingType: undefined,
   },
   {
     id: "ORD003",
@@ -65,6 +68,7 @@ const initialOrders: Order[] = [
     paymentMethod: "Tunai",
     orderType: "Pickup",
     location: "Perumahan Indah Blok C-5",
+    clothingType: undefined,
   },
   {
     id: "ORD004",
@@ -77,6 +81,7 @@ const initialOrders: Order[] = [
     paymentMethod: "QRIS",
     orderType: "Delivery",
     location: undefined,
+    clothingType: undefined,
   },
   {
     id: "ORD005",
@@ -89,6 +94,7 @@ const initialOrders: Order[] = [
     paymentMethod: "Tunai",
     orderType: "Delivery",
     location: undefined,
+    clothingType: undefined,
   },
   {
     id: "ORD006",
@@ -101,6 +107,20 @@ const initialOrders: Order[] = [
     paymentMethod: "QRIS",
     orderType: "Pickup",
     location: "Apartemen Sejahtera Blok B",
+    clothingType: undefined,
+  },
+  {
+    id: "ORD007",
+    customer: "Fajar Nugraha",
+    service: "Cuci Satuan",
+    status: "Pending",
+    weight: 0.5,
+    price: 25000,
+    date: "2023-10-28",
+    paymentMethod: "Tunai",
+    orderType: "Pickup",
+    location: "Jl. Mawar No. 5",
+    clothingType: "Gaun Pesta",
   },
 ];
 

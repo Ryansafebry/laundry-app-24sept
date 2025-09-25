@@ -33,6 +33,7 @@ type Order = {
   paymentMethod: string;
   orderType: "Pickup" | "Delivery";
   location?: string;
+  clothingType?: string; // Menambahkan clothingType
 };
 
 // Contoh data pesanan awal (sama dengan LaundryDashboard untuk konsistensi)
@@ -48,6 +49,7 @@ const initialOrders: Order[] = [
     paymentMethod: "QRIS",
     orderType: "Pickup",
     location: "Jl. Merdeka No. 10",
+    clothingType: undefined,
   },
   {
     id: "ORD002",
@@ -60,6 +62,7 @@ const initialOrders: Order[] = [
     paymentMethod: "Debit",
     orderType: "Delivery",
     location: undefined,
+    clothingType: undefined,
   },
   {
     id: "ORD003",
@@ -72,6 +75,7 @@ const initialOrders: Order[] = [
     paymentMethod: "Tunai",
     orderType: "Pickup",
     location: "Perumahan Indah Blok C-5",
+    clothingType: undefined,
   },
   {
     id: "ORD004",
@@ -84,30 +88,20 @@ const initialOrders: Order[] = [
     paymentMethod: "QRIS",
     orderType: "Delivery",
     location: undefined,
+    clothingType: undefined,
   },
   {
-    id: "ORD005",
-    customer: "Andi Pratama",
-    service: "Cuci Setrika",
-    status: "Completed",
-    weight: 6,
-    price: 35000,
-    date: "2023-10-24",
+    id: "ORD007",
+    customer: "Fajar Nugraha",
+    service: "Cuci Satuan",
+    status: "Pending",
+    weight: 0.5,
+    price: 25000,
+    date: "2023-10-28",
     paymentMethod: "Tunai",
-    orderType: "Delivery",
-    location: undefined,
-  },
-  {
-    id: "ORD006",
-    customer: "Rina Wijaya",
-    service: "Cuci Kering",
-    status: "Completed",
-    weight: 2.5,
-    price: 12500,
-    date: "2023-10-23",
-    paymentMethod: "QRIS",
     orderType: "Pickup",
-    location: "Apartemen Sejahtera Blok B",
+    location: "Jl. Mawar No. 5",
+    clothingType: "Gaun Pesta",
   },
 ];
 
@@ -157,6 +151,7 @@ const OrderHistory = () => {
                     <TableHead>ID Pesanan</TableHead>
                     <TableHead>Pelanggan</TableHead>
                     <TableHead>Layanan</TableHead>
+                    <TableHead>Jenis Pakaian</TableHead> {/* Kolom baru */}
                     <TableHead>Status</TableHead>
                     <TableHead>Pembayaran</TableHead>
                     <TableHead>Jenis Pesanan</TableHead>
@@ -174,6 +169,7 @@ const OrderHistory = () => {
                       </TableCell>
                       <TableCell>{order.customer}</TableCell>
                       <TableCell>{order.service}</TableCell>
+                      <TableCell>{order.clothingType || "-"}</TableCell> {/* Menampilkan jenis pakaian */}
                       <TableCell>
                         <Badge variant={getStatusVariant(order.status)}>
                           {order.status}

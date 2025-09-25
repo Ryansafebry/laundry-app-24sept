@@ -27,7 +27,7 @@ const formSchema = z.object({
   customerName: z.string().min(2, {
     message: "Nama pelanggan harus minimal 2 karakter.",
   }),
-  serviceType: z.enum(["Cuci Kering", "Cuci Setrika", "Setrika Saja"], {
+  serviceType: z.enum(["Cuci Kering", "Cuci Setrika", "Setrika Saja", "Cuci Satuan"], { // Menambahkan 'Cuci Satuan'
     required_error: "Pilih jenis layanan.",
   }),
   weight: z.coerce.number().min(0.1, {
@@ -39,14 +39,22 @@ const formSchema = z.object({
   orderType: z.enum(["Pickup", "Delivery"], {
     required_error: "Pilih jenis pesanan.",
   }),
-  location: z.string().optional(), // Lokasi awalnya opsional
+  location: z.string().optional(),
+  clothingType: z.string().optional(), // Menambahkan bidang jenis pakaian
 }).superRefine((data, ctx) => {
-  // Validasi kondisional: jika orderType adalah "Pickup", maka lokasi wajib diisi
   if (data.orderType === "Pickup" && (!data.location || data.location.trim() === "")) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: "Lokasi penjemputan wajib diisi untuk pesanan Pickup.",
       path: ["location"],
+    });
+  }
+  // Validasi kondisional: jika serviceType adalah "Cuci Satuan", maka clothingType wajib diisi
+  if (data.serviceType === "Cuci Satuan" && (!data.clothingType || data.clothingType.trim() === "")) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Jenis pakaian wajib diisi untuk layanan Cuci Satuan.",
+      path: ["clothingType"],
     });
   }
 });
@@ -61,7 +69,8 @@ type CreateOrderFormProps = {
     price: number;
     date: string;
     orderType: "Pickup" | "Delivery";
-    location?: string; // Menambahkan location sebagai opsional
+    location?: string;
+    clothingType?: string; // Menambahkan clothingType sebagai opsional
   }) => void;
   onClose: () => void;
 };
@@ -78,11 +87,13 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
       weight: 0,
       price: 0,
       orderType: "Pickup",
-      location: "", // Default value for new field
+      location: "",
+      clothingType: "", // Default value for new field
     },
   });
 
-  const orderType = form.watch("orderType"); // Memantau perubahan pada orderType
+  const orderType = form.watch("orderType");
+  const serviceType = form.watch("serviceType"); // Memantau perubahan pada serviceType
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const newOrder = {
@@ -96,7 +107,8 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
       price: values.price,
       date: new Date().toISOString().split("T")[0],
       orderType: values.orderType,
-      location: values.orderType === "Pickup" ? values.location : undefined, // Hanya sertakan lokasi jika Pickup
+      location: values.orderType === "Pickup" ? values.location : undefined,
+      clothingType: values.serviceType === "Cuci Satuan" ? values.clothingType : undefined, // Hanya sertakan jenis pakaian jika Cuci Satuan
     };
     onOrderCreated(newOrder);
     toast.success("Pesanan baru berhasil ditambahkan!");
@@ -135,12 +147,28 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
                   <SelectItem value="Cuci Kering">Cuci Kering</SelectItem>
                   <SelectItem value="Cuci Setrika">Cuci Setrika</SelectItem>
                   <SelectItem value="Setrika Saja">Setrika Saja</SelectItem>
+                  <SelectItem value="Cuci Satuan">Cuci Satuan</SelectItem> {/* Opsi baru */}
                 </SelectContent>
               </Select>
               <FormMessage />
             </FormItem>
           )}
         />
+        {serviceType === "Cuci Satuan" && ( // Bidang kondisional untuk jenis pakaian
+          <FormField
+            control={form.control}
+            name="clothingType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Jenis Pakaian</FormLabel>
+                <FormControl>
+                  <Input placeholder="Contoh: Gaun Pesta, Jas, Selimut" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name="weight"
