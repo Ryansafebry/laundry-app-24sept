@@ -267,7 +267,11 @@ const LaundryDashboard = () => {
                         </TableCell>
                         <TableCell>{order.paymentMethod}</TableCell>
                         <TableCell>{order.orderType}</TableCell>
-                        <TableCell>{order.location || "-"}</TableCell> {/* Menampilkan lokasi atau '-' */}
+                        <TableCell>
+                          {order.orderType === "Pickup" && order.location
+                            ? "Tersamar"
+                            : order.location || "-"}
+                        </TableCell> {/* Menampilkan lokasi tersamar atau '-' */}
                         <TableCell className="text-right">
                           {order.weight}
                         </TableCell>
