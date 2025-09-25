@@ -1,13 +1,67 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Settings } from "lucide-react";
+import { ChevronLeft, Settings as SettingsIcon } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
+import { cn } from "@/lib/utils"; // Import cn untuk menggabungkan kelas Tailwind
+
+// Import komponen pengaturan baru
+import NotificationSettings from "@/components/settings/NotificationSettings";
+import LocationSettings from "@/components/settings/LocationSettings";
+import ServiceSettings from "@/components/settings/ServiceSettings";
+import PickupDeliverySettings from "@/components/settings/PickupDeliverySettings";
+import CustomerSettings from "@/components/settings/CustomerSettings";
+import AboutUs from "@/components/settings/AboutUs";
+
+type SettingOption =
+  | "general"
+  | "notifications"
+  | "location"
+  | "services"
+  | "pickup-delivery"
+  | "customers"
+  | "about-us";
 
 const SettingsPage = () => {
   const navigate = useNavigate();
+  const [activeSetting, setActiveSetting] = useState<SettingOption>("general");
+
+  const renderSettingComponent = () => {
+    switch (activeSetting) {
+      case "general":
+        return (
+          <Card>
+            <CardHeader className="px-7">
+              <CardTitle>Pengaturan Umum</CardTitle>
+              <CardDescription>
+                Kelola preferensi dan konfigurasi aplikasi Anda.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Pilih opsi dari menu samping untuk mengelola pengaturan spesifik.
+              </p>
+            </CardContent>
+          </Card>
+        );
+      case "notifications":
+        return <NotificationSettings />;
+      case "location":
+        return <LocationSettings />;
+      case "services":
+        return <ServiceSettings />;
+      case "pickup-delivery":
+        return <PickupDeliverySettings />;
+      case "customers":
+        return <CustomerSettings />;
+      case "about-us":
+        return <AboutUs />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -23,24 +77,73 @@ const SettingsPage = () => {
             <span className="sr-only">Kembali</span>
           </Button>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <Settings className="h-6 w-6 text-gray-500" />
+            <SettingsIcon className="h-6 w-6 text-gray-500" />
             Pengaturan Aplikasi
           </h1>
         </header>
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-          <Card>
-            <CardHeader className="px-7">
-              <CardTitle>Pengaturan Umum</CardTitle>
-              <CardDescription>
-                Kelola preferensi dan konfigurasi aplikasi Anda.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Di sini Anda dapat menambahkan opsi pengaturan seperti tema, notifikasi, dll.
-              </p>
-            </CardContent>
-          </Card>
+        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-[240px_1fr]">
+          <nav
+            className="grid gap-4 text-sm text-muted-foreground"
+            x-chunk="dashboard-04-chunk-0"
+          >
+            <a
+              href="#"
+              className={cn(
+                "font-semibold",
+                activeSetting === "general" && "text-primary"
+              )}
+              onClick={() => setActiveSetting("general")}
+            >
+              Umum
+            </a>
+            <a
+              href="#"
+              className={cn(
+                activeSetting === "notifications" && "text-primary"
+              )}
+              onClick={() => setActiveSetting("notifications")}
+            >
+              Notifikasi
+            </a>
+            <a
+              href="#"
+              className={cn(activeSetting === "location" && "text-primary")}
+              onClick={() => setActiveSetting("location")}
+            >
+              Lokasi
+            </a>
+            <a
+              href="#"
+              className={cn(activeSetting === "services" && "text-primary")}
+              onClick={() => setActiveSetting("services")}
+            >
+              Pengaturan Layanan
+            </a>
+            <a
+              href="#"
+              className={cn(
+                activeSetting === "pickup-delivery" && "text-primary"
+              )}
+              onClick={() => setActiveSetting("pickup-delivery")}
+            >
+              Pengaturan Antar-Jemput
+            </a>
+            <a
+              href="#"
+              className={cn(activeSetting === "customers" && "text-primary")}
+              onClick={() => setActiveSetting("customers")}
+            >
+              Pengaturan Pelanggan
+            </a>
+            <a
+              href="#"
+              className={cn(activeSetting === "about-us" && "text-primary")}
+              onClick={() => setActiveSetting("about-us")}
+            >
+              Tentang Kami
+            </a>
+          </nav>
+          <div className="grid gap-6">{renderSettingComponent()}</div>
         </main>
       </div>
     </div>
