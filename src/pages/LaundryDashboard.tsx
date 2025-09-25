@@ -18,7 +18,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, History } from "lucide-react";
+import { PlusCircle, History, Settings } from "lucide-react"; // Import Settings icon
 import {
   Dialog,
   DialogContent,
@@ -165,6 +165,14 @@ const LaundryDashboard = () => {
                 </span>
               </Link>
             </Button>
+            <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
+              <Link to="/admin">
+                <Settings className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Admin
+                </span>
+              </Link>
+            </Button>
           </div>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
@@ -196,6 +204,7 @@ const LaundryDashboard = () => {
                   <p className="text-xs text-muted-foreground">
                     Pesanan menunggu diproses
                   </p>
+                </p>
                 </CardContent>
               </Card>
               <Card>

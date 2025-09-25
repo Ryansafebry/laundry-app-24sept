@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Link } from "react-router-dom"; // Import Link
 import {
   Card,
   CardHeader,
@@ -17,6 +18,8 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Settings } from "lucide-react"; // Import Settings icon
+import { Button } from "@/components/ui/button"; // Import Button
 
 // Definisi tipe untuk pesanan
 type Order = {
@@ -103,6 +106,16 @@ const History = () => {
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <h1 className="text-2xl font-semibold">Riwayat Pesanan</h1>
+          <div className="ml-auto flex items-center gap-2">
+            <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
+              <Link to="/admin">
+                <Settings className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Admin
+                </span>
+              </Link>
+            </Button>
+          </div>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <Card>

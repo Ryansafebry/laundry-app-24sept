@@ -6,7 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import LaundryDashboard from "./pages/LaundryDashboard";
-import History from "./pages/History"; // Import the new History page
+import History from "./pages/History";
+import AdminDashboard from "./pages/AdminDashboard"; // Import the new AdminDashboard page
 
 const queryClient = new QueryClient();
 
@@ -19,7 +20,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<LaundryDashboard />} />
-          <Route path="/history" element={<History />} /> {/* New route for History page */}
+          <Route path="/history" element={<History />} />
+          <Route path="/admin" element={<AdminDashboard />} /> {/* New route for Admin Dashboard */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

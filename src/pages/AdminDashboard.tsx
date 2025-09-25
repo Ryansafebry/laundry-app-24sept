@@ -1,0 +1,140 @@
+"use client";
+
+import React, { useState } from "react";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card";
+import OrderTable from "@/components/OrderTable";
+import { toast } from "sonner";
+
+// Definisi tipe untuk pesanan (konsisten dengan OrderTable)
+type Order = {
+  id: string;
+  customer: string;
+  service: string;
+  status: "Pending" | "In Progress" | "Completed";
+  weight: number;
+  price: number;
+  date: string;
+  paymentMethod: string;
+  orderType: "Pickup" | "Delivery";
+  location?: string;
+};
+
+// Contoh data pesanan awal (sama dengan LaundryDashboard untuk konsistensi)
+const initialOrders: Order[] = [
+  {
+    id: "ORD001",
+    customer: "Budi Santoso",
+    service: "Cuci Kering",
+    status: "Pending",
+    weight: 3,
+    price: 15000,
+    date: "2023-10-26",
+    paymentMethod: "QRIS",
+    orderType: "Pickup",
+    location: "Jl. Merdeka No. 10",
+  },
+  {
+    id: "ORD002",
+    customer: "Siti Aminah",
+    service: "Cuci Setrika",
+    status: "In Progress",
+    weight: 5,
+    price: 30000,
+    date: "2023-10-25",
+    paymentMethod: "Debit",
+    orderType: "Delivery",
+    location: undefined,
+  },
+  {
+    id: "ORD003",
+    customer: "Joko Susilo",
+    service: "Setrika Saja",
+    status: "Pending",
+    weight: 2,
+    price: 10000,
+    date: "2023-10-26",
+    paymentMethod: "Tunai",
+    orderType: "Pickup",
+    location: "Perumahan Indah Blok C-5",
+  },
+  {
+    id: "ORD004",
+    customer: "Dewi Lestari",
+    service: "Cuci Kering",
+    status: "Completed",
+    weight: 4,
+    price: 20000,
+    date: "2023-10-27",
+    paymentMethod: "QRIS",
+    orderType: "Delivery",
+    location: undefined,
+  },
+  {
+    id: "ORD005",
+    customer: "Andi Pratama",
+    service: "Cuci Setrika",
+    status: "Completed",
+    weight: 6,
+    price: 35000,
+    date: "2023-10-24",
+    paymentMethod: "Tunai",
+    orderType: "Delivery",
+    location: undefined,
+  },
+  {
+    id: "ORD006",
+    customer: "Rina Wijaya",
+    service: "Cuci Kering",
+    status: "Completed",
+    weight: 2.5,
+    price: 12500,
+    date: "2023-10-23",
+    paymentMethod: "QRIS",
+    orderType: "Pickup",
+    location: "Apartemen Sejahtera Blok B",
+  },
+];
+
+const AdminDashboard = () => {
+  const [orders, setOrders] = useState<Order[]>(initialOrders);
+
+  const handleUpdateOrderStatus = (orderId: string, newStatus: Order["status"]) => {
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.id === orderId ? { ...order, status: newStatus } : order
+      )
+    );
+    toast.success(`Status pesanan ${orderId} berhasil diperbarui menjadi ${newStatus}.`);
+  };
+
+  return (
+    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+          <h1 className="text-2xl font-semibold">Dashboard Admin</h1>
+        </header>
+        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+          <Card>
+            <CardHeader className="px-7">
+              <CardTitle>Manajemen Pesanan</CardTitle>
+              <CardDescription>
+                Kelola semua pesanan laundry yang masuk dan perbarui statusnya.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <OrderTable orders={orders} onUpdateOrderStatus={handleUpdateOrderStatus} />
+            </CardContent>
+          </Card>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default AdminDashboard;
