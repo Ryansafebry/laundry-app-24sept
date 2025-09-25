@@ -1,29 +1,22 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import LaundryDashboard from "./pages/LaundryDashboard"; // Import the new dashboard
+"use client";
 
-const queryClient = new QueryClient();
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LaundryDashboard from "./pages/LaundryDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
+import OrderHistory from "./pages/OrderHistory"; // Import komponen OrderHistory
+import "./App.css";
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<LaundryDashboard />} /> {/* New route for dashboard */}
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LaundryDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/history" element={<OrderHistory />} /> {/* Tambahkan rute baru */}
+      </Routes>
+    </Router>
+  );
+}
 
 export default App;

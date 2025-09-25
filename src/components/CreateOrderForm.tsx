@@ -36,6 +36,19 @@ const formSchema = z.object({
   price: z.coerce.number().min(1000, {
     message: "Harga harus minimal Rp 1.000.",
   }),
+  orderType: z.enum(["Pickup", "Delivery"], {
+    required_error: "Pilih jenis pesanan.",
+  }),
+  location: z.string().optional(), // Lokasi awalnya opsional
+}).superRefine((data, ctx) => {
+  // Validasi kondisional: jika orderType adalah "Pickup", maka lokasi wajib diisi
+  if (data.orderType === "Pickup" && (!data.location || data.location.trim() === "")) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Lokasi penjemputan wajib diisi untuk pesanan Pickup.",
+      path: ["location"],
+    });
+  }
 });
 
 type CreateOrderFormProps = {
@@ -47,6 +60,8 @@ type CreateOrderFormProps = {
     weight: number;
     price: number;
     date: string;
+    orderType: "Pickup" | "Delivery";
+    location?: string; // Menambahkan location sebagai opsional
   }) => void;
   onClose: () => void;
 };
@@ -59,27 +74,33 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       customerName: "",
-      serviceType: "Cuci Kering", // Default value
+      serviceType: "Cuci Kering",
       weight: 0,
       price: 0,
+      orderType: "Pickup",
+      location: "", // Default value for new field
     },
   });
+
+  const orderType = form.watch("orderType"); // Memantau perubahan pada orderType
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const newOrder = {
       id: `ORD${Math.floor(Math.random() * 10000)
         .toString()
-        .padStart(3, "0")}`, // Simple ID generation
+        .padStart(3, "0")}`,
       customer: values.customerName,
       service: values.serviceType,
-      status: "Pending", // Default status for new orders
+      status: "Pending",
       weight: values.weight,
       price: values.price,
-      date: new Date().toISOString().split("T")[0], // Current date
+      date: new Date().toISOString().split("T")[0],
+      orderType: values.orderType,
+      location: values.orderType === "Pickup" ? values.location : undefined, // Hanya sertakan lokasi jika Pickup
     };
     onOrderCreated(newOrder);
     toast.success("Pesanan baru berhasil ditambahkan!");
-    onClose(); // Close the dialog after submission
+    onClose();
   };
 
   return (
@@ -146,6 +167,42 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="orderType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Jenis Pesanan</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih jenis pesanan" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Pickup">Pickup</SelectItem>
+                  <SelectItem value="Delivery">Delivery</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {orderType === "Pickup" && (
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Lokasi Penjemputan</FormLabel>
+                <FormControl>
+                  <Input placeholder="Masukkan lokasi penjemputan" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <Button type="submit" className="w-full">
           Tambah Pesanan
         </Button>
