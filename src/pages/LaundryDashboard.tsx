@@ -39,7 +39,7 @@ import ActionButtonsGrid from "@/components/dashboard/ActionButtonsGrid";
 import HelpCard from "@/components/dashboard/HelpCard";
 import PromoCard from "@/components/PromoCard"; // Import PromoCard
 
-// Definisi tipe untuk pesanan
+// Definisi tipe untuk pesanan (dipindahkan ke OrdersPage.tsx)
 type Order = {
   id: string;
   customer: string;
@@ -54,7 +54,7 @@ type Order = {
   clothingType?: string;
 };
 
-// Contoh data pesanan awal
+// Contoh data pesanan awal (dipindahkan ke OrdersPage.tsx)
 const initialOrders: Order[] = [
   {
     id: "ORD001",
@@ -124,6 +124,8 @@ const initialOrders: Order[] = [
 ];
 
 const LaundryDashboard = () => {
+  // Menggunakan state lokal untuk orders, meskipun data awal dipindahkan,
+  // ini untuk menjaga fungsionalitas 'Tambah Pesanan' tetap di dashboard.
   const [orders, setOrders] = useState<Order[]>(initialOrders);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -131,18 +133,7 @@ const LaundryDashboard = () => {
     setOrders((prevOrders) => [...prevOrders, newOrder]);
   };
 
-  const getStatusVariant = (status: string) => {
-    switch (status) {
-      case "Pending":
-        return "destructive";
-      case "In Progress":
-        return "secondary";
-      case "Completed":
-        return "default";
-      default:
-        return "outline";
-    }
-  };
+  // getStatusVariant dipindahkan ke OrdersPage.tsx
 
   // Calculate summary data for DailySummaryCard
   const totalRevenue = orders.reduce((sum, order) => sum + order.price, 0);
@@ -195,68 +186,7 @@ const LaundryDashboard = () => {
             <HelpCard />
           </div>
 
-          <main className="flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-            <div className="grid auto-rows-max items-start gap-4 md:gap-8">
-              <Card>
-                <CardHeader className="px-7">
-                  <CardTitle>Pesanan Terbaru</CardTitle>
-                  <CardDescription>
-                    Daftar pesanan laundry yang sedang aktif.
-                  </CardDescription>
-                </CardHeader>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>ID Pesanan</TableHead>
-                      <TableHead>Pelanggan</TableHead>
-                      <TableHead>Layanan</TableHead>
-                      <TableHead>Jenis Pakaian</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Pembayaran</TableHead>
-                      <TableHead>Jenis Pesanan</TableHead>
-                      <TableHead>Lokasi</TableHead>
-                      <TableHead className="text-right">Berat (kg)</TableHead>
-                      <TableHead className="text-right">Harga</TableHead>
-                      <TableHead className="text-right">Tanggal</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {orders.map((order) => (
-                      <TableRow key={order.id}>
-                        <TableCell className="font-medium">
-                          {order.id}
-                        </TableCell>
-                        <TableCell>{order.customer}</TableCell>
-                        <TableCell>{order.service}</TableCell>
-                        <TableCell>{order.clothingType || "-"}</TableCell>
-                        <TableCell>
-                          <Badge variant={getStatusVariant(order.status)}>
-                            {order.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{order.paymentMethod}</TableCell>
-                        <TableCell>{order.orderType}</TableCell>
-                        <TableCell>
-                          {order.orderType === "Pickup" && order.location
-                            ? "Tersamar"
-                            : order.location || "-"}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {order.weight}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          Rp{order.price.toLocaleString("id-ID")}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {order.date}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Card>
-            </div>
-          </main>
+          {/* Bagian main yang berisi tabel pesanan telah dipindahkan ke OrdersPage.tsx */}
         </div>
       </div>
     </div>
