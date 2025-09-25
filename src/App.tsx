@@ -2,7 +2,7 @@
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LaundryDashboard from "./pages/LaundryDashboard";
+import { LaundryDashboard } from "./pages/LaundryDashboard"; // Mengubah menjadi named import
 import AdminDashboard from "./pages/AdminDashboard";
 import OrderHistory from "./pages/OrderHistory"; // Import komponen OrderHistory
 import "./App.css";
