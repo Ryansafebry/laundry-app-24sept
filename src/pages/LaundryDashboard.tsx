@@ -1,4 +1,6 @@
 "use client";
+
+import React from "react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -18,7 +20,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, History } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -27,22 +29,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import CreateOrderForm from "@/components/CreateOrderForm"; // Import the form component
+import CreateOrderForm from "@/components/CreateOrderForm"; // Import the new form component
 
-// Definisi tipe untuk pesanan
-type Order = {
-  id: string;
-  customer: string;
-  service: string;
-  status: "Pending" | "In Progress" | "Completed";
-  weight: number;
-  price: number;
-  date: string;
-  paymentMethod: string;
-};
-
+// Contoh data pesanan
+const orders = [
 // Contoh data pesanan awal
-const initialOrders: Order[] = [
+const initialOrders = [
   {
     id: "ORD001",
     customer: "Budi Santoso",
@@ -51,48 +43,51 @@ const initialOrders: Order[] = [
     weight: 3,
     price: 15000,
     date: "2023-10-26",
-    paymentMethod: "QRIS",
   },
   {
     id: "ORD002",
     customer: "Siti Aminah",
     service: "Cuci Setrika",
-    status: "In Progress",
+    status: "Completed",
     weight: 5,
     price: 30000,
     date: "2023-10-25",
-    paymentMethod: "Debit",
   },
   {
     id: "ORD003",
     customer: "Joko Susilo",
     service: "Setrika Saja",
-    status: "Pending",
+    status: "In Progress",
     weight: 2,
     price: 10000,
     date: "2023-10-26",
-    paymentMethod: "Tunai",
   },
   {
     id: "ORD004",
     customer: "Dewi Lestari",
     service: "Cuci Kering",
-    status: "Completed",
+    status: "Pending",
     weight: 4,
     price: 20000,
     date: "2023-10-27",
-    paymentMethod: "QRIS",
   },
 ];
 
 const LaundryDashboard = () => {
-  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const [orders, setOrders] = useState(initialOrders);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleOrderCreated = (newOrder: Order) => {
-    setOrders((prevOrders) => [...prevOrders, newOrder]);
+  const handleOrderCreated = (newOrder: typeof initialOrders[0]) => {
+    setOrders((prevOrders) => [newOrder, ...prevOrders]);
   };
 
+  const totalOrders = orders.length;
+  const pendingOrders = orders.filter(
+    (order) => order.status === "Pending",
+  ).length;
+  const completedOrders = orders.filter(
+    (order) => order.status === "Completed",
+  ).length;
   const getStatusVariant = (status: string) => {
     switch (status) {
       case "Pending":
@@ -105,32 +100,24 @@ const LaundryDashboard = () => {
         return "outline";
     }
   };
-
-  // Calculate summary data
-  const totalOrders = orders.length;
-  const pendingOrders = orders.filter(
-    (order) => order.status === "Pending",
-  ).length;
-  const inProgressOrders = orders.filter(
-    (order) => order.status === "In Progress",
-  ).length;
-  const completedOrders = orders.filter(
-    (order) => order.status === "Completed",
-  ).length;
-  const totalRevenue = orders.reduce((sum, order) => sum + order.price, 0);
-
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <h1 className="text-2xl font-semibold">Dashboard Laundry</h1>
           <div className="ml-auto flex items-center gap-2">
+            <Button size="sm" className="h-8 gap-1">
+              <PlusCircle className="h-3.5 w-3.5" />
+              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                Buat Pesanan Baru
+              </span>
+            </Button>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
                 <Button size="sm" className="h-8 gap-1">
                   <PlusCircle className="h-3.5 w-3.5" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Tambah Pesanan
+                    Buat Pesanan Baru
                   </span>
                 </Button>
               </DialogTrigger>
@@ -147,25 +134,17 @@ const LaundryDashboard = () => {
                 />
               </DialogContent>
             </Dialog>
-            <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
-              <Link to="/history">
-                <History className="h-3.5 w-3.5" />
-                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                  Riwayat
-                </span>
-              </Link>
-            </Button>
           </div>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Total Pesanan
                   </CardTitle>
-                  <History className="h-4 w-4 text-muted-foreground" />
+                  <span className="h-4 w-4 text-muted-foreground">🧺</span>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{totalOrders}</div>
@@ -177,53 +156,37 @@ const LaundryDashboard = () => {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Pesanan Pending
+                    Pesanan Tertunda
                   </CardTitle>
-                  <PlusCircle className="h-4 w-4 text-muted-foreground" />
+                  <span className="h-4 w-4 text-muted-foreground">⏳</span>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{pendingOrders}</div>
                   <p className="text-xs text-muted-foreground">
-                    Pesanan menunggu diproses
+                    Pesanan yang belum diproses
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Sedang Diproses
+                    Pesanan Selesai
                   </CardTitle>
-                  <History className="h-4 w-4 text-muted-foreground" />
+                  <span className="h-4 w-4 text-muted-foreground">✅</span>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{inProgressOrders}</div>
+                  <div className="text-2xl font-bold">{completedOrders}</div>
                   <p className="text-xs text-muted-foreground">
-                    Pesanan dalam pengerjaan
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Pendapatan Total
-                  </CardTitle>
-                  <History className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    Rp{totalRevenue.toLocaleString("id-ID")}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Dari semua pesanan selesai
+                    Pesanan yang sudah diambil
                   </p>
                 </CardContent>
               </Card>
             </div>
             <Card>
               <CardHeader className="px-7">
-                <CardTitle>Pesanan</CardTitle>
+                <CardTitle>Pesanan Terbaru</CardTitle>
                 <CardDescription>
-                  Pesanan laundry terbaru Anda.
+                  Daftar pesanan laundry yang baru masuk.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -234,7 +197,6 @@ const LaundryDashboard = () => {
                       <TableHead>Pelanggan</TableHead>
                       <TableHead>Layanan</TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead>Pembayaran</TableHead>
                       <TableHead className="text-right">Berat (kg)</TableHead>
                       <TableHead className="text-right">Harga</TableHead>
                       <TableHead className="text-right">Tanggal</TableHead>
@@ -253,7 +215,6 @@ const LaundryDashboard = () => {
                             {order.status}
                           </Badge>
                         </TableCell>
-                        <TableCell>{order.paymentMethod}</TableCell>
                         <TableCell className="text-right">
                           {order.weight}
                         </TableCell>
