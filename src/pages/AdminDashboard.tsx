@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/card";
 import OrderTable from "@/components/OrderTable";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button"; // Import Button
-import { ChevronLeft } from "lucide-react"; // Import ChevronLeft icon
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, History, PlusCircle } from "lucide-react"; // Import History and PlusCircle icons
 
 // Definisi tipe untuk pesanan (konsisten dengan OrderTable)
 type Order = {
@@ -106,7 +106,7 @@ const initialOrders: Order[] = [
 
 const AdminDashboard = () => {
   const [orders, setOrders] = useState<Order[]>(initialOrders);
-  const navigate = useNavigate(); // Inisialisasi useNavigate
+  const navigate = useNavigate();
 
   const handleUpdateOrderStatus = (orderId: string, newStatus: Order["status"]) => {
     setOrders((prevOrders) =>
@@ -117,6 +117,19 @@ const AdminDashboard = () => {
     toast.success(`Status pesanan ${orderId} berhasil diperbarui menjadi ${newStatus}.`);
   };
 
+  // Calculate summary data
+  const totalOrders = orders.length;
+  const pendingOrders = orders.filter(
+    (order) => order.status === "Pending",
+  ).length;
+  const inProgressOrders = orders.filter(
+    (order) => order.status === "In Progress",
+  ).length;
+  const completedOrders = orders.filter(
+    (order) => order.status === "Completed",
+  ).length;
+  const totalRevenue = orders.reduce((sum, order) => sum + order.price, 0);
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
@@ -125,25 +138,87 @@ const AdminDashboard = () => {
             variant="outline"
             size="icon"
             className="h-8 w-8"
-            onClick={() => navigate(-1)} // Tombol kembali
+            onClick={() => navigate(-1)}
           >
             <ChevronLeft className="h-4 w-4" />
             <span className="sr-only">Kembali</span>
           </Button>
           <h1 className="text-2xl font-semibold">Dashboard Admin</h1>
         </header>
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-          <Card>
-            <CardHeader className="px-7">
-              <CardTitle>Manajemen Pesanan</CardTitle>
-              <CardDescription>
-                Kelola semua pesanan laundry yang masuk dan perbarui statusnya.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <OrderTable orders={orders} onUpdateOrderStatus={handleUpdateOrderStatus} />
-            </CardContent>
-          </Card>
+        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
+          <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-3">
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Total Pesanan
+                  </CardTitle>
+                  <History className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{totalOrders}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Jumlah semua pesanan
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Pesanan Pending
+                  </CardTitle>
+                  <PlusCircle className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{pendingOrders}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Pesanan menunggu diproses
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Sedang Diproses
+                  </CardTitle>
+                  <History className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{inProgressOrders}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Pesanan dalam pengerjaan
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Pendapatan Total
+                  </CardTitle>
+                  <History className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    Rp{totalRevenue.toLocaleString("id-ID")}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Dari semua pesanan selesai
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+            <Card>
+              <CardHeader className="px-7">
+                <CardTitle>Manajemen Pesanan</CardTitle>
+                <CardDescription>
+                  Kelola semua pesanan laundry yang masuk dan perbarui statusnya.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <OrderTable orders={orders} onUpdateOrderStatus={handleUpdateOrderStatus} />
+              </CardContent>
+            </Card>
+          </div>
         </main>
       </div>
     </div>
