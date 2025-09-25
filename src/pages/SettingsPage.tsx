@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } => "react";
+import React, { useState } from "react"; // Memperbaiki '=>' menjadi 'from'
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -86,7 +86,7 @@ const SettingsPage = () => {
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-[240px_1fr]">
           <Card className="h-fit">
-            <CardContent className="p-4 grid gap-2 bg-yellow-100"> {/* Menambahkan bg-yellow-100 */}
+            <CardContent className="p-4 grid gap-2 bg-yellow-100">
               <Button
                 variant={activeSetting === "general" ? "secondary" : "ghost"}
                 className="justify-start w-full text-base"
