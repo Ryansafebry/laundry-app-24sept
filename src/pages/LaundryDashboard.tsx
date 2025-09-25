@@ -157,7 +157,7 @@ const LaundryDashboard = () => {
           <header className="sticky top-0 z-30 flex h-14 items-center justify-center border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
             <h1 className="text-7xl font-bold flex items-center gap-2">
               <WashingMachine className="h-16 w-16 text-yellow-500" />
-              binatu
+              BetterLaundry
             </h1>
             {/* Tombol navigasi lama dihapus dari sini */}
           </header>
