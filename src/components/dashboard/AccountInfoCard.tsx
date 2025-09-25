@@ -7,7 +7,7 @@ import { ChevronRight, User } from "lucide-react";
 
 const AccountInfoCard = () => {
   return (
-    <Card className="flex items-center p-4 bg-white shadow-md border border-black rounded-xl">
+    <Card className="flex items-center p-4 bg-white shadow-md rounded-xl"> {/* Menghapus border border-black */}
       <Avatar className="h-12 w-12 mr-4">
         <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
         <AvatarFallback>
