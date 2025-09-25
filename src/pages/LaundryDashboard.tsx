@@ -5,7 +5,6 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  CardContent,
   CardDescription,
 }
 from "@/components/ui/card";
@@ -165,7 +164,6 @@ const LaundryDashboard = () => {
                   </span>
                 </Link>
               </Button>
-              {/* Tombol Admin dihapus */}
               <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
                 <Link to="/settings"> {/* Tombol Pengaturan */}
                   <Settings className="h-3.5 w-3.5" />
@@ -211,58 +209,57 @@ const LaundryDashboard = () => {
                     Pesanan laundry terbaru Anda.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>ID Pesanan</TableHead>
-                        <TableHead>Pelanggan</TableHead>
-                        <TableHead>Layanan</TableHead>
-                        <TableHead>Jenis Pakaian</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Pembayaran</TableHead>
-                        <TableHead>Jenis Pesanan</TableHead>
-                        <TableHead>Lokasi</TableHead>
-                        <TableHead className="text-right">Berat (kg)</TableHead>
-                        <TableHead className="text-right">Harga</TableHead>
-                        <TableHead className="text-right">Tanggal</TableHead>
+                {/* CardContent dihapus, Table sekarang langsung di bawah Card */}
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>ID Pesanan</TableHead>
+                      <TableHead>Pelanggan</TableHead>
+                      <TableHead>Layanan</TableHead>
+                      <TableHead>Jenis Pakaian</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Pembayaran</TableHead>
+                      <TableHead>Jenis Pesanan</TableHead>
+                      <TableHead>Lokasi</TableHead>
+                      <TableHead className="text-right">Berat (kg)</TableHead>
+                      <TableHead className="text-right">Harga</TableHead>
+                      <TableHead className="text-right">Tanggal</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {orders.map((order) => (
+                      <TableRow key={order.id}>
+                        <TableCell className="font-medium">
+                          {order.id}
+                        </TableCell>
+                        <TableCell>{order.customer}</TableCell>
+                        <TableCell>{order.service}</TableCell>
+                        <TableCell>{order.clothingType || "-"}</TableCell>
+                        <TableCell>
+                          <Badge variant={getStatusVariant(order.status)}>
+                            {order.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>{order.paymentMethod}</TableCell>
+                        <TableCell>{order.orderType}</TableCell>
+                        <TableCell>
+                          {order.orderType === "Pickup" && order.location
+                            ? "Tersamar"
+                            : order.location || "-"}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {order.weight}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          Rp{order.price.toLocaleString("id-ID")}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {order.date}
+                        </TableCell>
                       </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {orders.map((order) => (
-                        <TableRow key={order.id}>
-                          <TableCell className="font-medium">
-                            {order.id}
-                          </TableCell>
-                          <TableCell>{order.customer}</TableCell>
-                          <TableCell>{order.service}</TableCell>
-                          <TableCell>{order.clothingType || "-"}</TableCell>
-                          <TableCell>
-                            <Badge variant={getStatusVariant(order.status)}>
-                              {order.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>{order.paymentMethod}</TableCell>
-                          <TableCell>{order.orderType}</TableCell>
-                          <TableCell>
-                            {order.orderType === "Pickup" && order.location
-                              ? "Tersamar"
-                              : order.location || "-"}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            {order.weight}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            Rp{order.price.toLocaleString("id-ID")}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            {order.date}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
+                    ))}
+                  </TableBody>
+                </Table>
               </Card>
             </div>
           </main>
