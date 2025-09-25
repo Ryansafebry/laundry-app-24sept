@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, UserPlus, History, Settings } from "lucide-react";
+import { PlusCircle, UserPlus, History, Settings, ClipboardList } from "lucide-react"; // Menambahkan ClipboardList
 
 type ActionButtonsGridProps = {
   onAddOrderClick: () => void;
@@ -19,8 +19,12 @@ const ActionButtonsGrid: React.FC<ActionButtonsGridProps> = ({ onAddOrderClick }
         <PlusCircle className="h-6 w-6 mb-1" />
         <span className="text-sm">Tambah Pesanan</span>
       </Button>
-      <Button variant="outline" className="flex flex-col h-auto py-4 px-2 text-center">
-        <UserPlus className="h-6 w-6 mb-1" />
+      <Button
+        variant="default" // Diubah menjadi default
+        className="flex flex-col h-auto py-4 px-2 text-center bg-green-600 hover:bg-green-700 text-white" // Menambahkan warna hijau
+        onClick={() => console.log("Tombol Pesanan diklik!")} // Menambahkan fungsi klik
+      >
+        <ClipboardList className="h-6 w-6 mb-1" /> {/* Mengganti ikon */}
         <span className="text-sm">Tombol Pesanan</span>
       </Button>
       <Button variant="outline" className="flex flex-col h-auto py-4 px-2 text-center">
