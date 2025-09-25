@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
-import AccountInfoCard from "@/components/dashboard/AccountInfoCard";
+// import AccountInfoCard from "@/components/dashboard/AccountInfoCard"; // Menghapus import AccountInfoCard
 import BranchSelector from "@/components/dashboard/BranchSelector";
-// import PromoCard from "@/components/PromoCard"; // Menghapus import PromoCard
 import ActionButtonsGrid from "@/components/dashboard/ActionButtonsGrid";
 import SalesOverviewCard from "@/components/dashboard/SalesOverviewCard";
 import RecentOrdersCard from "@/components/dashboard/RecentOrdersCard";
@@ -20,8 +19,7 @@ const IndexPage = () => {
         <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <AccountInfoCard />
-        {/* <PromoCard /> */} {/* Menghapus PromoCard dari JSX */}
+        {/* <AccountInfoCard /> */} {/* Menghapus AccountInfoCard dari JSX */}
         <BranchSelector />
         <SalesOverviewCard />
       </div>

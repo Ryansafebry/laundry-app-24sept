@@ -32,12 +32,11 @@ from "@/components/ui/dialog";
 import CreateOrderForm from "@/components/CreateOrderForm";
 
 // Import komponen dashboard baru
-import AccountInfoCard from "@/components/dashboard/AccountInfoCard";
+// import AccountInfoCard from "@/components/dashboard/AccountInfoCard"; // Menghapus import AccountInfoCard
 import BranchSelector from "@/components/dashboard/BranchSelector";
 import DailySummaryCard from "@/components/dashboard/DailySummaryCard";
 import ActionButtonsGrid from "@/components/dashboard/ActionButtonsGrid";
 import HelpCard from "@/components/dashboard/HelpCard";
-// import PromoCard from "@/components/PromoCard"; // Menghapus import PromoCard
 
 // Definisi tipe untuk pesanan
 type Order = {
@@ -174,9 +173,8 @@ const LaundryDashboard = () => {
           </header>
 
           <div className="px-4 sm:px-6 py-4 space-y-4">
-            <AccountInfoCard />
+            {/* <AccountInfoCard /> */} {/* Menghapus AccountInfoCard dari JSX */}
             <BranchSelector />
-            {/* <PromoCard /> */} {/* Menghapus PromoCard dari JSX */}
             <DailySummaryCard
               totalRevenue={totalRevenue}
               totalOrders={orders.length}
