@@ -1,28 +1,39 @@
 "use client";
+import React from "react";
+import AccountInfoCard from "@/components/dashboard/AccountInfoCard";
+import BranchSelector from "@/components/dashboard/BranchSelector";
+import PromoCard from "@/components/PromoCard";
+import ActionButtonsGrid from "@/components/dashboard/ActionButtonsGrid";
+import SalesOverviewCard from "@/components/dashboard/SalesOverviewCard";
+import RecentOrdersCard from "@/components/dashboard/RecentOrdersCard";
+import TopSellingProductsCard from "@/components/dashboard/TopSellingProductsCard";
 
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { MadeWithDyad } from "@/components/made-with-dyad";
-
-const Index = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Redirect to the laundry dashboard immediately
-    navigate("/dashboard");
-  }, [navigate]);
+const IndexPage = () => {
+  const handleAddOrderClick = () => {
+    // Logika untuk menambah pesanan
+    console.log("Tambah Pesanan clicked!");
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Loading Laundry Dashboard...</h1>
-        <p className="text-xl text-gray-600">
-          Anda akan segera diarahkan.
-        </p>
+    <div className="flex-1 space-y-4 p-8 pt-6">
+      <div className="flex items-center justify-between space-y-2">
+        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
       </div>
-      <MadeWithDyad />
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <AccountInfoCard />
+        <PromoCard /> {/* Posisi PromoCard dipindahkan ke sini */}
+        <BranchSelector /> {/* Posisi BranchSelector dipindahkan ke sini */}
+        <SalesOverviewCard />
+      </div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+        <ActionButtonsGrid onAddOrderClick={handleAddOrderClick} />
+        <RecentOrdersCard />
+      </div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+        <TopSellingProductsCard />
+      </div>
     </div>
   );
 };
 
-export default Index;
+export default IndexPage;

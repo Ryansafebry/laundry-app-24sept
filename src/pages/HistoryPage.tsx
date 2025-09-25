@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -10,7 +10,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Settings } from "lucide-react";
 import {
   Table,
   TableHeader,
@@ -30,10 +30,10 @@ type Order = {
   weight: number;
   price: number;
   date: string;
-  paymentMethod: string;
+  paymentMethod: "QRIS" | "Debit" | "Tunai";
   orderType: "Pickup" | "Delivery";
   location?: string;
-  clothingType?: string; // Menambahkan clothingType
+  clothingType?: string;
 };
 
 // Contoh data pesanan awal (sama dengan LaundryDashboard untuk konsistensi)
@@ -105,7 +105,7 @@ const initialOrders: Order[] = [
   },
 ];
 
-const OrderHistory = () => {
+const HistoryPage = () => {
   const navigate = useNavigate();
 
   const getStatusVariant = (status: string) => {
@@ -135,6 +135,16 @@ const OrderHistory = () => {
             <span className="sr-only">Kembali</span>
           </Button>
           <h1 className="text-2xl font-semibold">Riwayat Pesanan</h1>
+          <div className="ml-auto flex items-center gap-2">
+            <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
+              <Link to="/settings"> {/* Mengarahkan ke halaman pengaturan utama */}
+                <Settings className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Pengaturan
+                </span>
+              </Link>
+            </Button>
+          </div>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <Card>
@@ -151,7 +161,7 @@ const OrderHistory = () => {
                     <TableHead>ID Pesanan</TableHead>
                     <TableHead>Pelanggan</TableHead>
                     <TableHead>Layanan</TableHead>
-                    <TableHead>Jenis Pakaian</TableHead> {/* Kolom baru */}
+                    <TableHead>Jenis Pakaian</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Pembayaran</TableHead>
                     <TableHead>Jenis Pesanan</TableHead>
@@ -169,7 +179,7 @@ const OrderHistory = () => {
                       </TableCell>
                       <TableCell>{order.customer}</TableCell>
                       <TableCell>{order.service}</TableCell>
-                      <TableCell>{order.clothingType || "-"}</TableCell> {/* Menampilkan jenis pakaian */}
+                      <TableCell>{order.clothingType || "-"}</TableCell>
                       <TableCell>
                         <Badge variant={getStatusVariant(order.status)}>
                           {order.status}
@@ -203,4 +213,4 @@ const OrderHistory = () => {
   );
 };
 
-export default OrderHistory;
+export default HistoryPage;
