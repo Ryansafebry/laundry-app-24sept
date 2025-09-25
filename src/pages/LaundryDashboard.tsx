@@ -20,7 +20,7 @@ import {
 }
 from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, History, Settings, WashingMachine } from "lucide-react";
+import { PlusCircle, History, Settings, WashingMachine, Wallet } from "lucide-react"; // Import Wallet icon
 import {
   Dialog,
   DialogContent,
@@ -149,6 +149,14 @@ const LaundryDashboard = () => {
               BetterLaundry
             </h1>
             <div className="ml-auto flex items-center gap-2">
+              <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
+                <Link to="/wallet"> {/* Tombol Dompet */}
+                  <Wallet className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Dompet
+                  </span>
+                </Link>
+              </Button>
               <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
                 <Link to="/history">
                   <History className="h-3.5 w-3.5" />

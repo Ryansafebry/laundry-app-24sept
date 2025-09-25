@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LaundryDashboard from "./pages/LaundryDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import OrderHistory from "./pages/OrderHistory";
-import SettingsPage from "./pages/SettingsPage"; // Import komponen SettingsPage
+import SettingsPage from "./pages/SettingsPage";
+import WalletPage from "./pages/WalletPage"; // Import komponen WalletPage
 import "./App.css";
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
         <Route path="/" element={<LaundryDashboard />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/history" element={<OrderHistory />} />
-        <Route path="/settings" element={<SettingsPage />} /> {/* Tambahkan rute baru untuk SettingsPage */}
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/wallet" element={<WalletPage />} /> {/* Tambahkan rute baru untuk WalletPage */}
       </Routes>
     </Router>
   );
