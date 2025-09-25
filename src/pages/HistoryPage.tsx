@@ -137,7 +137,7 @@ const HistoryPage = () => {
           <h1 className="text-2xl font-semibold">Riwayat Pesanan</h1>
           <div className="ml-auto flex items-center gap-2">
             <Button size="sm" variant="outline" className="h-8 gap-1" asChild>
-              <Link to="/settings">
+              <Link to="/settings"> {/* Mengarahkan ke halaman pengaturan utama */}
                 <Settings className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                   Pengaturan

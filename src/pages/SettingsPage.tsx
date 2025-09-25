@@ -2,24 +2,73 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Bell, MapPin, Truck, WashingMachine, Users, Info } from 'lucide-react'; // Import ikon yang diperlukan
+
+const settingsOptions = [
+  {
+    title: "Pengaturan Lokasi",
+    description: "Kelola informasi lokasi bisnis Anda.",
+    icon: MapPin,
+    path: "/settings/location",
+  },
+  {
+    title: "Pengaturan Notifikasi",
+    description: "Kelola preferensi notifikasi Anda.",
+    icon: Bell,
+    path: "/settings/notifications",
+  },
+  {
+    title: "Pengaturan Antar-Jemput",
+    description: "Konfigurasi layanan penjemputan dan pengiriman.",
+    icon: Truck,
+    path: "/settings/pickup-delivery",
+  },
+  {
+    title: "Pengaturan Layanan",
+    description: "Kelola jenis layanan laundry yang tersedia.",
+    icon: WashingMachine,
+    path: "/settings/services",
+  },
+  {
+    title: "Pengaturan Pelanggan",
+    description: "Kelola preferensi terkait pelanggan.",
+    icon: Users,
+    path: "/settings/customers",
+  },
+  {
+    title: "Tentang Kami",
+    description: "Informasi tentang aplikasi atau bisnis Anda.",
+    icon: Info,
+    path: "/settings/about",
+  },
+];
 
 const SettingsPage = () => {
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted/40 p-4">
-      <div className="max-w-2xl w-full text-center space-y-6">
-        <h1 className="text-5xl font-bold text-gray-800">Pengaturan Aplikasi</h1>
-        <p className="text-lg text-gray-600">
-          Di sini Anda dapat mengelola pengaturan aplikasi Anda.
-          Fitur ini akan segera dikembangkan lebih lanjut!
-        </p>
-        <Button asChild className="mt-6">
-          <Link to="/" className="flex items-center gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Kembali ke Dashboard
-          </Link>
-        </Button>
+    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+          <h1 className="text-2xl font-semibold">Pengaturan</h1>
+        </header>
+        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
+          {settingsOptions.map((option) => {
+            const IconComponent = option.icon;
+            return (
+              <Link to={option.path} key={option.path}>
+                <Card className="hover:bg-accent transition-colors cursor-pointer">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-lg font-medium">{option.title}</CardTitle>
+                    <IconComponent className="h-6 w-6 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{option.description}</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
+        </main>
       </div>
     </div>
   );
