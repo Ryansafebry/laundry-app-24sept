@@ -27,10 +27,10 @@ const PromoCard: React.FC = () => {
         <CardTitle className="text-sm font-medium text-yellow-800">Promo Spesial!</CardTitle>
         <Percent className="h-4 w-4 text-red-400" />
       </CardHeader>
-      <CardContent className="flex items-center justify-center relative z-10"> {/* Mengubah justify-between menjadi justify-center */}
-        <div className="flex flex-col items-center text-center"> {/* Menambahkan items-center dan text-center */}
-          <div className="text-5xl font-bold text-red-600 animate-blink">Diskon 15%</div> {/* Memperbesar font menjadi text-5xl */}
-          <CardDescription className="text-sm text-yellow-700 mt-2"> {/* Memperbesar deskripsi menjadi text-sm dan menambahkan margin atas */}
+      <CardContent className="flex items-center justify-center relative z-10">
+        <div className="flex flex-col items-center text-center">
+          <div className="text-6xl font-bold text-red-600 animate-blink">Diskon 15%</div> {/* Memperbesar font menjadi text-6xl */}
+          <CardDescription className="text-sm text-yellow-700 mt-2">
             Untuk semua layanan Cuci Setrika di bulan ini!
           </CardDescription>
         </div>
