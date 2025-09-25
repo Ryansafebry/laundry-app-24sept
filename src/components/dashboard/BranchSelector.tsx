@@ -12,7 +12,7 @@ import { MapPin } from "lucide-react";
 
 const BranchSelector = () => {
   return (
-    <Card className="bg-white shadow-md border border-black rounded-xl">
+    <Card className="bg-white shadow-md rounded-xl"> {/* Menghapus border border-black */}
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center gap-2">
           <MapPin className="h-4 w-4 text-muted-foreground" />
