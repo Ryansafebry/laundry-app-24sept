@@ -1,21 +1,23 @@
 "use client";
-
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight, MessageCircle } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { LifeBuoy } from "lucide-react";
 
-const HelpCard: React.FC = () => {
+const HelpCard = () => {
   return (
-    <Card className="bg-green-100 border-green-200 text-green-800 shadow-sm cursor-pointer hover:bg-green-200 transition-colors">
-      <CardContent className="flex items-center justify-between p-4">
-        <div className="flex items-center gap-3">
-          <MessageCircle className="h-5 w-5" />
-          <div>
-            <p className="font-semibold">Butuh bantuan?</p>
-            <p className="text-sm text-green-700">Chat kami di whatsapp</p>
-          </div>
+    <Card className="bg-white shadow-md border border-black rounded-xl">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <div className="flex items-center gap-2">
+          <LifeBuoy className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-sm font-medium">Butuh Bantuan?</CardTitle>
         </div>
-        <ChevronRight className="h-5 w-5" />
+      </CardHeader>
+      <CardContent>
+        <CardDescription className="mb-4">
+          Hubungi tim dukungan kami jika Anda memiliki pertanyaan atau masalah.
+        </CardDescription>
+        <Button className="w-full">Hubungi Dukungan</Button>
       </CardContent>
     </Card>
   );

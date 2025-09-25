@@ -19,7 +19,7 @@ const DailySummaryCard: React.FC<DailySummaryCardProps> = ({
   totalMeters,
 }) => {
   return (
-    <Card className="bg-yellow-400 text-black shadow-md border border-black"> {/* Menambahkan border border-black */}
+    <Card className="bg-yellow-400 text-black shadow-md border border-black rounded-xl"> {/* Menambahkan rounded-xl */}
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center gap-2">
           <ClipboardList className="h-4 w-4" />

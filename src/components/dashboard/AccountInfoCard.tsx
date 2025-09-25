@@ -1,18 +1,29 @@
 "use client";
-
-import React from 'react';
-import { CalendarDays } from 'lucide-react';
+import React from "react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { ChevronRight, User } from "lucide-react";
 
 const AccountInfoCard = () => {
-  const expiryDate = "2024-12-31"; // Example expiry date
-
   return (
-    <div className="flex items-center justify-between p-0">
-      <div>
-        {/* Teks 'Masa Aktif Akun' telah dihapus */}
+    <Card className="flex items-center p-4 bg-white shadow-md border border-black rounded-xl">
+      <Avatar className="h-12 w-12 mr-4">
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>
+          <User className="h-6 w-6" />
+        </AvatarFallback>
+      </Avatar>
+      <div className="flex-grow">
+        <CardTitle className="text-lg font-semibold">Halo, John Doe!</CardTitle>
+        <CardDescription className="text-sm text-gray-500">
+          Cabang: Pusat | Role: Admin
+        </CardDescription>
       </div>
-      <CalendarDays className="h-6 w-6 text-muted-foreground" />
-    </div>
+      <Button variant="ghost" size="icon" className="ml-auto">
+        <ChevronRight className="h-5 w-5" />
+      </Button>
+    </Card>
   );
 };
 

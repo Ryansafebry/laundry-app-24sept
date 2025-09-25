@@ -1,18 +1,35 @@
 "use client";
-
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { ChevronDown, Plus } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { MapPin } from "lucide-react";
 
-const BranchSelector: React.FC = () => {
+const BranchSelector = () => {
   return (
-    <Card className="p-4 shadow-sm">
-      <CardContent className="flex items-center justify-between p-0">
+    <Card className="bg-white shadow-md border border-black rounded-xl">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center gap-2">
-          <ChevronDown className="h-4 w-4 text-muted-foreground" />
-          <p className="text-base font-semibold">One Hundred Laundry</p>
+          <MapPin className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-sm font-medium">Pilih Cabang</CardTitle>
         </div>
-        <Plus className="h-5 w-5 text-muted-foreground cursor-pointer" />
+      </CardHeader>
+      <CardContent>
+        <Select defaultValue="pusat">
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Pilih Cabang" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="pusat">Cabang Pusat</SelectItem>
+            <SelectItem value="cabang-a">Cabang A</SelectItem>
+            <SelectItem value="cabang-b">Cabang B</SelectItem>
+          </SelectContent>
+        </Select>
       </CardContent>
     </Card>
   );
