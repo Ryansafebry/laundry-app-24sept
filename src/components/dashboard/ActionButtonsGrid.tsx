@@ -24,7 +24,7 @@ const ActionButtonsGrid: React.FC<ActionButtonsGridProps> = ({ onAddOrderClick }
           Riwayat Pesanan
         </Link>
       </Button>
-      <Button asChild className="w-full h-24 flex flex-col items-center justify-center text-lg font-semibold bg-white border border-gray-300 text-gray-800 hover:bg-gray-50">
+      <Button asChild className="w-full h-24 flex flex-col items-center justify-center text-lg font-semibold bg-green-500 text-white hover:bg-green-600">
         <Link to="/reports">
           <BarChart className="h-6 w-6 mb-1" />
           Laporan
